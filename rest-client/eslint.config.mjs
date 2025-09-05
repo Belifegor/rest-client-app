@@ -1,25 +1,37 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+// eslint.config.mjs
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
 import { FlatCompat } from "@eslint/eslintrc";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+export default [
+  js.configs.recommended,
 
-const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
-  {
-    ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
-    ],
-  },
-];
 
-export default eslintConfig;
+  ...tseslint.configs.recommendedTypeChecked,
+  {
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: { parserOptions: { project: true, tsconfigRootDir: __dirname } }
+  },
+
+  { ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"] },
+
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      indent: ["error", 2],
+      semi: ["error", "always"],
+      quotes: ["error", "double"],
+      "no-mixed-spaces-and-tabs": "error",
+      "space-before-blocks": ["error", "always"],
+      "keyword-spacing": ["error", { before: true, after: true }],
+      "no-console": ["error", { allow: ["warn", "error"] }]
+    }
+  }
+];
