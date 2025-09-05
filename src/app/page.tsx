@@ -6,7 +6,7 @@ export default function HomePage() {
     <AppShell>
       <div className="flex items-center gap-2">
         <select className="border rounded px-2 py-1">
-        <option>GET</option>
+          <option>GET</option>
           <option>POST</option>
         </select>
         <input className="border rounded px-2 py-1 flex-1" placeholder="https://api.example.com" />
