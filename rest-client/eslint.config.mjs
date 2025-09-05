@@ -9,15 +9,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const compat = new FlatCompat({ baseDirectory: __dirname });
 
-export default [
+const eslintConfig = [
   js.configs.recommended,
 
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 
-  ...tseslint.configs.recommendedTypeChecked,
   {
     files: ["**/*.{ts,tsx}"],
-    languageOptions: { parserOptions: { project: true, tsconfigRootDir: __dirname } }
+    ...tseslint.configs.recommendedTypeChecked[0],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.json"],
+        tsconfigRootDir: __dirname,
+      },
+    },
   },
 
   { ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"] },
@@ -35,3 +40,5 @@ export default [
     }
   }
 ];
+
+export default eslintConfig;
