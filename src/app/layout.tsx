@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "REST Client", description: "Mini Pos
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-dvh bg-background text-foreground antialiased">
+      <body className="min-h-dvh bg-gray-900 text-white antialiased">
         <AppShell>{children}</AppShell>
       </body>
     </html>
