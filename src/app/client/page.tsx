@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 
+const REQUEST_TABS: string[] = ["params", "headers", "body", "auth"];
+const RESPONSE_TABS: string[] = ["body", "headers"];
+
 export default function RestClient() {
   return (
     <div className="flex flex-col gap-4 h-full bg-gray-900 text-white p-4">
@@ -23,7 +26,7 @@ export default function RestClient() {
 
       <Tabs defaultValue="params" className="flex-1 flex flex-col">
         <TabsList className="w-fit mb-2 bg-gray-800 rounded">
-          {["params", "headers", "body", "auth"].map((tab) => (
+          {REQUEST_TABS.map((tab) => (
             <TabsTrigger
               key={tab}
               value={tab}
@@ -37,7 +40,6 @@ export default function RestClient() {
           <TabsContent value="params" className="p-4 text-sm text-gray-300">
             Add query parameters here…
           </TabsContent>
-
           <TabsContent value="headers" className="p-4 text-sm text-gray-300">
             <div className="flex flex-col gap-2">
               <div className="flex gap-2 mb-2">
@@ -79,7 +81,7 @@ export default function RestClient() {
 
         <Tabs defaultValue="body" className="flex-1 flex flex-col">
           <TabsList className="w-fit mb-2 bg-gray-800 rounded">
-            {["body", "headers"].map((tab) => (
+            {RESPONSE_TABS.map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
