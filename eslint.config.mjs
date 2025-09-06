@@ -30,7 +30,7 @@ const eslintConfig = [
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {
-      indent: ["error", 2],
+      indent: ["off"],
       semi: ["error", "always"],
       quotes: ["error", "double"],
       "no-mixed-spaces-and-tabs": "error",

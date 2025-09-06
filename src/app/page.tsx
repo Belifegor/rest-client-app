@@ -1,18 +1,45 @@
 import AppShell from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function HomePage() {
+  const isAuthenticated = true;
+  const username = "Jakob Schmidt";
+
   return (
     <AppShell>
-      <div className="flex items-center gap-2">
-        <select className="border rounded px-2 py-1">
-          <option>GET</option>
-          <option>POST</option>
-        </select>
-        <input className="border rounded px-2 py-1 flex-1" placeholder="https://api.example.com" />
-        <Button>Send</Button>
-      </div>
-      <div className="rounded border p-3 text-sm">Response will appear here…</div>
+      <main className="flex flex-1 items-center justify-center p-6">
+        <div className="flex flex-col items-center justify-center text-center gap-6">
+          {!isAuthenticated ? (
+            <>
+              <h1 className="text-3xl font-bold">Welcome!</h1>
+              <div className="flex gap-4">
+                <Button asChild>
+                  <Link href="/signin">Sign In</Link>
+                </Button>
+                <Button variant="secondary" asChild>
+                  <Link href="/signup">Sign Up</Link>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h1 className="text-2xl font-semibold">Welcome Back, {username}!</h1>
+              <div className="flex gap-4">
+                <Button asChild>
+                  <Link href="/client">REST Client</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/history">History</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/variables">Variables</Link>
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </main>
     </AppShell>
   );
 }
