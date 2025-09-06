@@ -7,9 +7,7 @@ export default function HomePage() {
 
   return (
     <AppShell>
-      <main className="flex flex-1 items-center justify-center p-6">
-        <WelcomeMessage isAuthenticated={isAuthenticated} username={username} />
-      </main>
+      <WelcomeMessage isAuthenticated={isAuthenticated} username={username} />
     </AppShell>
   );
 }
