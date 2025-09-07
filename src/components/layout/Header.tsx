@@ -1,9 +1,26 @@
+"use client";
+
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect((): (() => void) => {
+    const onScroll: () => void = (): void => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", onScroll);
+    return (): void => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 bg-gray-900 text-white border-b border-gray-700 px-6 py-3 flex items-center justify-between">
+    <header
+      className={`sticky top-0 z-50 border-b border-gray-700 transition-all duration-300 flex items-center justify-between px-6 ${
+        scrolled ? "bg-gray-800 py-3 shadow-md" : "bg-gray-900 py-4"
+      }`}
+    >
       <Link href={ROUTES.HOME} className="font-bold text-lg hover:opacity-80 transition">
         <svg
           width="40"
@@ -14,19 +31,19 @@ export default function Header() {
           className="hover:opacity-80 transition"
         >
           <rect width="40" height="40" rx="10" fill="#0D9488" />
-          <path d="M12.5 20H27.5" stroke="white" stroke-width="2.5" stroke-linecap="round" />
-          <path d="M20 12.5V27.5" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M12.5 20H27.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M20 12.5V27.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
           <path
             d="M23.75 16.25L16.25 23.75"
             stroke="#99F6E4"
-            stroke-width="2.5"
-            stroke-linecap="round"
+            strokeWidth="2.5"
+            strokeLinecap="round"
           />
           <path
             d="M16.25 16.25L23.75 23.75"
             stroke="#99F6E4"
-            stroke-width="2.5"
-            stroke-linecap="round"
+            strokeWidth="2.5"
+            strokeLinecap="round"
           />
         </svg>
       </Link>
