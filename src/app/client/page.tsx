@@ -1,15 +1,36 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { HttpMethod, useRequest } from "@/store/request.store";
 import { Input } from "@/components/ui/input";
 
 const REQUEST_TABS: string[] = ["params", "headers", "body", "auth"];
 const RESPONSE_TABS: string[] = ["body", "headers"];
 
 export default function RestClient() {
+  const {
+    method,
+    url,
+    body,
+    headers,
+    setMethod,
+    setUrl,
+    setBody,
+    addHeader,
+    updateHeader,
+    removeHeader,
+  } = useRequest();
+
+  const canSend = url.trim().length > 0;
+
   return (
     <div className="flex flex-col gap-4 h-full bg-gray-900 text-white p-4">
       <div className="flex items-center gap-2 bg-gray-800 p-3 rounded">
-        <select className="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white cursor-pointer">
+        <select
+          className="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white cursor-pointer"
+          value={method}
+          onChange={(e) => setMethod(e.target.value as HttpMethod)}
+        >
           <option>GET</option>
           <option>POST</option>
           <option>PUT</option>
@@ -18,8 +39,13 @@ export default function RestClient() {
         <Input
           placeholder="https://api.example.com"
           className="flex-1 text-sm bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
         />
-        <Button className="px-6 bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white cursor-pointer">
+        <Button
+          className="px-6 bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white cursor-pointer"
+          disabled={!canSend}
+        >
           Send
         </Button>
       </div>
@@ -42,18 +68,41 @@ export default function RestClient() {
           </TabsContent>
           <TabsContent value="headers" className="p-4 text-sm text-gray-300">
             <div className="flex flex-col gap-2">
-              <div className="flex gap-2 mb-2">
-                <Input
-                  placeholder="Header Key"
-                  className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                />
-                <Input
-                  placeholder="Header Value"
-                  className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                />
-                <Button size="sm" className="bg-gray-600 hover:bg-gray-500 text-white">
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-400">Request headers</span>
+                <Button
+                  size="sm"
+                  className="bg-gray-600 hover:bg-gray-500 text-white"
+                  onClick={addHeader}
+                >
                   Add
                 </Button>
+              </div>
+              <div className="space-y-2">
+                {headers.map((h) => (
+                  <div key={h.id} className="flex gap-2">
+                    <Input
+                      placeholder="Header Key"
+                      className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      value={h.key}
+                      onChange={(e) => updateHeader(h.id, { key: e.target.value })}
+                    />
+                    <Input
+                      placeholder="Header Value"
+                      className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      value={h.value}
+                      onChange={(e) => updateHeader(h.id, { value: e.target.value })}
+                    />
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="bg-gray-600 hover:bg-gray-500 text-white"
+                      onClick={() => removeHeader(h.id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                ))}
               </div>
             </div>
           </TabsContent>
@@ -62,7 +111,26 @@ export default function RestClient() {
             <textarea
               className="w-full h-48 bg-gray-700 border border-gray-600 rounded p-2 font-mono text-sm text-white placeholder-gray-400"
               placeholder="Enter JSON or text here…"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
             />
+            <div className="mt-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                className="bg-gray-600 hover:bg-gray-500 text-white"
+                onClick={() => {
+                  try {
+                    const pretty = JSON.stringify(JSON.parse(body || "{}"), null, 2);
+                    setBody(pretty);
+                  } catch {
+                    alert("Invalid JSON. Cannot prettify.");
+                  }
+                }}
+              >
+                Prettify
+              </Button>
+            </div>
           </TabsContent>
 
           <TabsContent value="auth" className="p-4 text-sm text-gray-300">
