@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
   useEffect((): (() => void) => {
-    const onScroll: () => void = (): void => {
-      setScrolled(window.scrollY > 10);
-    };
+    const onScroll: () => void = (): void => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return (): void => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -56,9 +56,30 @@ export default function Header() {
           <option value="en">EN</option>
           <option value="ru">RU</option>
         </select>
-        <button className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm">
-          Sign Out
-        </button>
+
+        {isAuthenticated ? (
+          <button
+            onClick={(): void => setIsAuthenticated(false)}
+            className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
+          >
+            Sign Out
+          </button>
+        ) : (
+          <>
+            <Link
+              href={ROUTES.SIGN_IN}
+              className="bg-gradient-to-r from-sky-600 to-blue-600/80 hover:from-sky-700 hover:to-blue-700/80 px-3 py-1 rounded text-sm cursor-pointer"
+            >
+              Sign In
+            </Link>
+            <Link
+              href={ROUTES.SIGN_UP}
+              className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
+            >
+              Sign Up
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );
