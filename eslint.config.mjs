@@ -4,6 +4,7 @@ import tseslint from "typescript-eslint";
 import { FlatCompat } from "@eslint/eslintrc";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import eslintPluginPrettier from "eslint-plugin-prettier/recommended";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,6 +12,7 @@ const compat = new FlatCompat({ baseDirectory: __dirname });
 
 const eslintConfig = [
   js.configs.recommended,
+  eslintPluginPrettier,
 
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 
@@ -30,15 +32,14 @@ const eslintConfig = [
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {
-      indent: ["off"],
       semi: ["error", "always"],
       quotes: ["error", "double"],
       "no-mixed-spaces-and-tabs": "error",
       "space-before-blocks": ["error", "always"],
       "keyword-spacing": ["error", { before: true, after: true }],
-      "no-console": ["error", { allow: ["warn", "error"] }]
-    }
-  }
+      "no-console": ["error", { allow: ["warn", "error"] }],
+    },
+  },
 ];
 
 export default eslintConfig;
