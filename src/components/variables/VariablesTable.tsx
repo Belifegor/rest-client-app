@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "./ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import { Button } from "../ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Pencil, Trash } from "lucide-react";
 
 export type Variable = {

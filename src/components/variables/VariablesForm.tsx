@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
-function AddVariableForm() {
+function VariablesForm() {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
 
@@ -41,4 +41,4 @@ function AddVariableForm() {
   );
 }
 
-export default AddVariableForm;
+export default VariablesForm;
