@@ -30,7 +30,7 @@ export default function RestClient() {
             <TabsTrigger
               key={tab}
               value={tab}
-              className="text-white hover:bg-gray-700 data-[state=active]:bg-slate-400 data-[state=active]:text-gray-900"
+              className="m-0.5 text-white hover:bg-gray-700 data-[state=active]:bg-slate-400 data-[state=active]:text-gray-900"
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </TabsTrigger>
@@ -85,7 +85,7 @@ export default function RestClient() {
               <TabsTrigger
                 key={tab}
                 value={tab}
-                className="text-white hover:bg-gray-700 data-[state=active]:bg-slate-400 data-[state=active]:text-gray-900"
+                className="m-0.5 text-white hover:bg-gray-700 data-[state=active]:bg-slate-400 data-[state=active]:text-gray-900"
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </TabsTrigger>
