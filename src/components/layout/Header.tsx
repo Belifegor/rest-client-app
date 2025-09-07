@@ -3,7 +3,7 @@ import { ROUTES } from "@/constants/routes";
 
 export default function Header() {
   return (
-    <header className="bg-gray-900 text-white border-b border-gray-700 px-6 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-gray-900 text-white border-b border-gray-700 px-6 py-3 flex items-center justify-between">
       <Link href={ROUTES.HOME} className="font-bold text-lg hover:opacity-80 transition">
         <svg
           width="40"
