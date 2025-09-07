@@ -3,14 +3,18 @@
 import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useVariablesStore } from "@/lib/stores/variables-store";
 
 function VariablesForm() {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
 
+  const { addVariable } = useVariablesStore();
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    addVariable({ name, value });
     setName("");
     setValue("");
   };

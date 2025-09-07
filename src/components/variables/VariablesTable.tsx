@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import { Button } from "../ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Pencil, Trash } from "lucide-react";
+import { useVariablesStore } from "@/lib/stores/variables-store";
 
 export type Variable = {
   id: number;
@@ -10,10 +13,7 @@ export type Variable = {
 };
 
 function VariablesTable() {
-  const variables: Variable[] = [
-    { id: 1, name: "key", value: "ITGHS3DCUJehUZpdnb0dLOMQ" },
-    { id: 2, name: "id", value: "5" },
-  ];
+  const { variables } = useVariablesStore();
 
   return (
     <Table>
