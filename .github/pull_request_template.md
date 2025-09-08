@@ -14,14 +14,6 @@
 - [ ] 🔧 Config (configuration changes)
 - [ ] 💄 Style (cosmetic changes)
 
-## Related Issues
-
-<!-- Closed issues (e.g., Closes #123, Fixes #456) -->
-
-- Closes #
-- Fixes #
-- Related to #
-
 ## Testing
 
 <!-- Description of testing performed -->
@@ -39,9 +31,6 @@
 ## Screenshots/GIFs
 
 <!-- Visual evidence of work (if applicable) -->
-
-| Before | After |
-| ------ | ----- |
 
 ## Checklist
 
