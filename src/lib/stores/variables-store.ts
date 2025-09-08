@@ -4,28 +4,19 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 type VariablesStore = {
   variables: Variable[];
-  addVariable: (variable: Omit<Variable, "id">) => void;
-  updateVariable: (id: number, updatedData: Partial<Variable>) => void;
-  deleteVariable: (id: number) => void;
+  addVariable: (variable: Variable) => void;
+  deleteVariable: (name: string) => void;
 };
 
 export const useVariablesStore = create<VariablesStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       variables: [],
       addVariable: (variable) => {
-        const id =
-          get().variables.length > 0 ? get().variables[get().variables.length - 1].id + 1 : 0;
-        set((state) => ({ variables: [...state.variables, { ...variable, id }] }));
+        set((state) => ({ variables: [...state.variables, variable] }));
       },
-      updateVariable: (id, updatedData) =>
-        set((state) => ({
-          variables: state.variables.map((item) =>
-            item.id === id ? { ...item, ...updatedData } : item
-          ),
-        })),
-      deleteVariable: (id) =>
-        set((state) => ({ variables: state.variables.filter((item) => item.id !== id) })),
+      deleteVariable: (key) =>
+        set((state) => ({ variables: state.variables.filter((item) => !(key in item)) })),
     }),
 
     {

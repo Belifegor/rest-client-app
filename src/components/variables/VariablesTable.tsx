@@ -3,19 +3,17 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import { Pencil, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { useVariablesStore } from "@/lib/stores/variables-store";
 
 export type Variable = {
-  id: number;
-  name: string;
-  value: string;
+  [name: string]: string;
 };
 
 function VariablesTable() {
-  const { variables } = useVariablesStore();
+  const { variables, deleteVariable } = useVariablesStore();
 
-  return (
+  return variables.length > 0 ? (
     <Table>
       <TableHeader>
         <TableRow>
@@ -26,15 +24,11 @@ function VariablesTable() {
       </TableHeader>
       <TableBody>
         {variables.map((item) => (
-          <TableRow key={item.id} className="p-5">
-            <TableCell className="p-5">{item.name}</TableCell>
-            <TableCell className="p-5">{item.value}</TableCell>
+          <TableRow key={Object.keys(item)[0]} className="p-5">
+            <TableCell className="p-5">{Object.keys(item)}</TableCell>
+            <TableCell className="p-5">{Object.values(item)}</TableCell>
             <TableCell>
-              <Button variant="secondary">
-                <Pencil />
-                Edit
-              </Button>
-              <Button variant="destructive">
+              <Button variant="destructive" onClick={() => deleteVariable(Object.keys(item)[0])}>
                 <Trash />
                 Delete
               </Button>
@@ -43,6 +37,8 @@ function VariablesTable() {
         ))}
       </TableBody>
     </Table>
+  ) : (
+    <p>No variables here. Add a variable to get started!</p>
   );
 }
 

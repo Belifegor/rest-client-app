@@ -13,8 +13,8 @@ function VariablesForm() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    addVariable({ name, value });
+    const newVariable = { [name]: value };
+    addVariable(newVariable);
     setName("");
     setValue("");
   };
