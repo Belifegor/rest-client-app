@@ -9,7 +9,7 @@ type WelcomeMessageProps = {
 
 export default function WelcomeMessage({ isAuthenticated = false, username }: WelcomeMessageProps) {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-6 h-full bg-gray-900 text-white p-6">
+    <div className="flex flex-1 flex-col items-center justify-center text-center gap-6 h-full bg-gray-900 text-white p-6">
       {!isAuthenticated ? (
         <>
           <h1 className="text-4xl font-bold">Welcome!</h1>
