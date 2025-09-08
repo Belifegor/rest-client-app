@@ -1,5 +1,3 @@
-"use client";
-
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useVariablesStore } from "@/lib/stores/variables-store";
