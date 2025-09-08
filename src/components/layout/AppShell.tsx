@@ -1,3 +1,4 @@
+import { Toaster } from "../ui/sonner";
 import Footer from "./Footer";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -7,10 +8,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <aside className="border-r border-gray-700 p-4 bg-gray-800">
           <div className="text-gray-300 font-semibold">Sidebar</div>
         </aside>
-        <main className="flex flex-col bg-gray-900">
+        <main className="flex flex-col bg-gray-900 min-h-dvh">
           <div className="flex-1 p-6 space-y-6">{children}</div>
           <Footer />
         </main>
+        <Toaster />
       </div>
     </div>
   );

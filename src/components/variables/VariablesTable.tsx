@@ -16,15 +16,15 @@ function VariablesTable() {
   return variables.length > 0 ? (
     <Table>
       <TableHeader>
-        <TableRow>
-          <TableHead className="text-xl text-white text-center">Name</TableHead>
-          <TableHead className="text-xl text-white text-center">Value</TableHead>
+        <TableRow className="bg-slate-800 pointer-events-none">
+          <TableHead className="text-l text-white text-center p-5">Name</TableHead>
+          <TableHead className="text-l text-white text-center p-5">Value</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {variables.map((item) => (
-          <TableRow key={Object.keys(item)[0]} className="p-5">
+          <TableRow key={Object.keys(item)[0]} className="p-5 hover:bg-gray-700">
             <TableCell className="p-5">{Object.keys(item)}</TableCell>
             <TableCell className="p-5">{Object.values(item)}</TableCell>
             <TableCell>
