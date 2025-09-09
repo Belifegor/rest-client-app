@@ -1,38 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState } from "react";
 import { ROUTES } from "@/constants/routes";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormState } from "@/types/types";
-
-const initialState: FormState = { error: null };
-
-async function signInAction(_prevState: FormState, formData: FormData): Promise<FormState> {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
-  if (!email || !password) {
-    return { error: "Email and password are required" };
-  }
-
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-
-    if (typeof window !== "undefined") {
-      window.location.href = ROUTES.HOME;
-    }
-
-    return { error: null };
-  } catch (err: unknown) {
-    if (err instanceof Error) return { error: err.message };
-    return { error: "Failed to sign in" };
-  }
-}
+import { signInAction } from "@/lib/actions/sign-in-action";
+import Link from "next/link";
 
 export default function SignInPage() {
-  const [state, formAction, isPending] = useActionState(signInAction, initialState);
+  const initialState: FormState = { error: null };
+
+  const [state, formAction, isPending] = useActionState<FormState, FormData>(
+    signInAction,
+    initialState
+  );
 
   return (
     <div className="flex flex-1 items-center justify-center p-6 bg-gray-900 text-white">
