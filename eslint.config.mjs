@@ -17,7 +17,7 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 
   {
-    files: ["**/*.{ts,tsx}"],
+    files: ["**/*.{ts,page.tsx}"],
     ...tseslint.configs.recommendedTypeChecked[0],
     languageOptions: {
       parserOptions: {
@@ -30,7 +30,7 @@ const eslintConfig = [
   { ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"] },
 
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
+    files: ["**/*.{js,jsx,ts,page.tsx}"],
     rules: {
       semi: ["error", "always"],
       quotes: ["error", "double"],
