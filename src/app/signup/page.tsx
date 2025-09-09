@@ -3,62 +3,16 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useActionState } from "react";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ROUTES } from "@/constants/routes";
-import { signUpSchema, SignUpData } from "@/lib//validation/auth-schema";
-
-type FormState = {
-  error: string | null;
-};
+import { passwordRequirements } from "@/lib/validation/password-requirements";
+import { signUpAction } from "@/lib/actions/sign-up-action";
+import { FormState } from "@/types/types";
 
 const initialState: FormState = { error: null };
-
-async function signUpAction(_prevState: FormState, formData: FormData): Promise<FormState> {
-  const data: SignUpData = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-    confirmPassword: formData.get("confirmPassword") as string,
-  };
-
-  const result = signUpSchema.safeParse(data);
-
-  if (!result.success) {
-    const firstIssue = result.error.issues[0];
-    return { error: firstIssue.message };
-  }
-
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-    const user = userCredential.user;
-    const username = data.email.split("@")[0];
-
-    await updateProfile(user, { displayName: username });
-
-    if (typeof window !== "undefined") {
-      window.location.href = ROUTES.HOME;
-    }
-
-    return { error: null };
-  } catch (err: unknown) {
-    if (err instanceof Error) return { error: err.message };
-    return { error: "Failed to create account" };
-  }
-}
 
 export default function SignUpPage() {
   const [state, formAction, isPending] = useActionState(signUpAction, initialState);
   const [password, setPassword] = useState("");
-
-  const passwordRequirements = [
-    { label: "At least 8 characters", test: (pw: string) => pw.length >= 8 },
-    { label: "At least one letter", test: (pw: string) => /[A-Za-z]/u.test(pw) },
-    { label: "At least one digit", test: (pw: string) => /\d/u.test(pw) },
-    {
-      label: "At least one special character",
-      test: (pw: string) => /[!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?`~]/u.test(pw),
-    },
-  ];
 
   return (
     <div className="flex flex-1 items-center justify-center p-6 bg-gray-900 text-white">
