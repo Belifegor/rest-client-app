@@ -1,21 +1,79 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { useActionState } from "react";
+import { auth } from "@/lib/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ROUTES } from "@/constants/routes";
+import { signUpSchema, SignUpData } from "@/lib//validation/auth-schema";
+
+type FormState = {
+  error: string | null;
+};
+
+const initialState: FormState = { error: null };
+
+async function signUpAction(_prevState: FormState, formData: FormData): Promise<FormState> {
+  const data: SignUpData = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+    confirmPassword: formData.get("confirmPassword") as string,
+  };
+
+  const result = signUpSchema.safeParse(data);
+
+  if (!result.success) {
+    const firstIssue = result.error.issues[0];
+    return { error: firstIssue.message };
+  }
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+    const user = userCredential.user;
+    const username = data.email.split("@")[0];
+
+    await updateProfile(user, { displayName: username });
+
+    if (typeof window !== "undefined") {
+      window.location.href = ROUTES.HOME;
+    }
+
+    return { error: null };
+  } catch (err: unknown) {
+    if (err instanceof Error) return { error: err.message };
+    return { error: "Failed to create account" };
+  }
+}
 
 export default function SignUpPage() {
+  const [state, formAction, isPending] = useActionState(signUpAction, initialState);
+  const [password, setPassword] = useState("");
+
+  const passwordRequirements = [
+    { label: "At least 8 characters", test: (pw: string) => pw.length >= 8 },
+    { label: "At least one letter", test: (pw: string) => /[A-Za-z]/u.test(pw) },
+    { label: "At least one digit", test: (pw: string) => /\d/u.test(pw) },
+    {
+      label: "At least one special character",
+      test: (pw: string) => /[!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?`~]/u.test(pw),
+    },
+  ];
+
   return (
     <div className="flex flex-1 items-center justify-center p-6 bg-gray-900 text-white">
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-6">
         <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
 
-        <form className="flex flex-col gap-4">
+        <form action={formAction} className="flex flex-col gap-4">
           <label className="flex flex-col">
             <span className="text-sm text-gray-300">Email</span>
             <input
               type="email"
+              name="email"
               placeholder="example@email.com"
               className="mt-1 rounded bg-gray-900 border border-gray-700 px-3 py-2 outline-none focus:ring-2 focus:ring-teal-500"
+              required
             />
           </label>
 
@@ -23,25 +81,48 @@ export default function SignUpPage() {
             <span className="text-sm text-gray-300">Password</span>
             <input
               type="password"
+              name="password"
               placeholder="At least 8 characters"
               className="mt-1 rounded bg-gray-900 border border-gray-700 px-3 py-2 outline-none focus:ring-2 focus:ring-teal-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </label>
+
+          <ul className="text-sm space-y-1 ml-1 mb-2">
+            {passwordRequirements.map((req) => {
+              const passed = req.test(password);
+              return (
+                <li
+                  key={req.label}
+                  className={`flex items-center gap-2 ${passed ? "text-green-400" : "text-red-400"}`}
+                >
+                  {passed ? "✔️" : "❌"} {req.label}
+                </li>
+              );
+            })}
+          </ul>
 
           <label className="flex flex-col">
             <span className="text-sm text-gray-300">Confirm Password</span>
             <input
               type="password"
+              name="confirmPassword"
               placeholder="Repeat your password"
               className="mt-1 rounded bg-gray-900 border border-gray-700 px-3 py-2 outline-none focus:ring-2 focus:ring-teal-500"
+              required
             />
           </label>
 
+          {state.error && <p className="text-red-400 text-sm text-center">{state.error}</p>}
+
           <button
             type="submit"
-            className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white font-medium px-4 py-2 rounded cursor-pointer"
+            disabled={isPending}
+            className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white font-medium px-4 py-2 rounded disabled:opacity-50 cursor-pointer"
           >
-            Create account
+            {isPending ? "Creating account..." : "Create account"}
           </button>
         </form>
 
