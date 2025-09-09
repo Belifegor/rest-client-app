@@ -30,7 +30,7 @@ export default function SignInPage() {
 
           <button
             type="submit"
-            className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white font-medium px-4 py-2 rounded"
+            className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white font-medium px-4 py-2 rounded cursor-pointer"
           >
             Sign In
           </button>
