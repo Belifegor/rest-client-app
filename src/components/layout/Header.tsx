@@ -3,17 +3,31 @@
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { useEffect, useState } from "react";
+import { useRouter } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentLocale = useLocale();
+  const [locale, setLocale] = useState(currentLocale);
+
   useEffect((): (() => void) => {
     const onScroll: () => void = (): void => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return (): void => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleLocaleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLocale = e.target.value;
+    setLocale(newLocale);
+    router.replace(pathname, { locale: newLocale });
+  };
 
   return (
     <header
@@ -51,7 +65,8 @@ export default function Header() {
       <div className="flex items-center gap-4">
         <select
           className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
-          defaultValue="en"
+          value={locale}
+          onChange={handleLocaleChange}
         >
           <option value="en">EN</option>
           <option value="ru">RU</option>
