@@ -1,0 +1,48 @@
+"use client";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { FC } from "react";
+import { DeveloperCardProps } from "@/types/types";
+import Image from "next/image";
+
+export const DeveloperCard: FC<DeveloperCardProps> = ({ member }) => {
+  return (
+    <Card className="h-130 p-4 flex flex-col items-center gap-4 bg-gray-900 shadow-lg rounded-2xl transition-transform hover:scale-105 overflow-auto">
+      <Image
+        width={300}
+        height={300}
+        src={member.avatar.src}
+        alt={member.name}
+        className="w-24 h-24 rounded-full object-cover border-2 border-green-300"
+      />
+
+      <CardContent className="flex flex-col items-center gap-2 p-0 w-full h-full">
+        <div className="flex flex-col items-center text-center">
+          <Label className="text-xl font-semibold text-white">{member.name}</Label>
+          <p className="text-md text-green-300 font-medium mb-2">{member.role}</p>
+          <p className="text-sm text-gray-300">{member.description}</p>
+        </div>
+
+        <ul className="list-disc list-inside mt-2 text-sm text-gray-400 text-left flex-grow w-full">
+          {member.contributions.map((item, idx) => (
+            <li key={idx}>{item}</li>
+          ))}
+        </ul>
+
+        <Button
+          asChild
+          size="sm"
+          variant="outline"
+          className="mt-2 w-full bg-gray-800 hover:bg-gray-700 text-white border-none"
+        >
+          <Link href={member.github} target="_blank">
+            GitHub
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
