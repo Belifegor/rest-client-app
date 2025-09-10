@@ -7,13 +7,13 @@ import { useEffect, useState } from "react";
 export default function GeneralInfo() {
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 50);
-    return () => clearTimeout(timer);
+  useEffect((): (() => void) => {
+    const timer = setTimeout((): void => setLoaded(true), 50);
+    return (): void => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="page p-6 flex flex-col gap-5 border-t">
+    <div className="page p-6 flex flex-col gap-5 border-t border-gray-700">
       <div
         className="flex flex-col items-center gap-4 transition-opacity duration-700 ease-out text-center"
         style={{ opacity: loaded ? 1 : 0 }}
