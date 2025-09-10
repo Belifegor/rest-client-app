@@ -5,6 +5,7 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import WelcomeMessage from "@/components/WelcomeMessage";
 import ButtonsBlock from "@/components/ui/ButtonsBlock";
+import GeneralInfo from "@/components/GeneraInfo";
 
 export default function HomePage() {
   const [user, setUser] = useState<User | null>(null);
@@ -26,9 +27,12 @@ export default function HomePage() {
   const username: string = user?.displayName || "Jacob Schmidt";
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 p-6 gap-6">
-      <WelcomeMessage isAuthenticated={isAuthenticated} username={username} />
-      <ButtonsBlock isAuthenticated={isAuthenticated} />
+    <div className="flex flex-col flex-1 p-6 gap-12">
+      <div className="flex flex-col items-center gap-6">
+        <WelcomeMessage isAuthenticated={isAuthenticated} username={username} />
+        <ButtonsBlock isAuthenticated={isAuthenticated} />
+      </div>
+      <GeneralInfo />
     </div>
   );
 }
