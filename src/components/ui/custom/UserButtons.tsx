@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "./button";
+import { Button } from "../button";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 

@@ -8,7 +8,7 @@ import { passwordRequirements } from "@/lib/validation/password-requirements";
 import { signUpAction } from "@/lib/actions/sign-up-action";
 import { FormState } from "@/types/types";
 import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
-import Loader from "../../components/ui/Loader";
+import Loader from "../../components/ui/custom/Loader";
 
 const initialState: FormState = { error: null };
 

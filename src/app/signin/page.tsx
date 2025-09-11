@@ -6,7 +6,7 @@ import { FormState } from "@/types/types";
 import { signInAction } from "@/lib/actions/sign-in-action";
 import Link from "next/link";
 import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
-import Loader from "../../components/ui/Loader";
+import Loader from "../../components/ui/custom/Loader";
 
 export default function SignInPage() {
   const initialState: FormState = { error: null };

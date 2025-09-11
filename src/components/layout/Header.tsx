@@ -7,6 +7,7 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Logo from "@/components/ui/custom/Logo";
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
@@ -44,32 +45,7 @@ export default function Header() {
         scrolled ? "bg-gray-800 py-3 shadow-md" : "bg-gray-900 py-4"
       }`}
     >
-      <Link href={ROUTES.HOME} className="font-bold text-lg hover:opacity-80 transition">
-        <svg
-          width="40"
-          height="40"
-          viewBox="0 0 40 40"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="hover:opacity-80 transition"
-        >
-          <rect width="40" height="40" rx="10" fill="#0D9488" />
-          <path d="M12.5 20H27.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M20 12.5V27.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-          <path
-            d="M23.75 16.25L16.25 23.75"
-            stroke="#99F6E4"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M16.25 16.25L23.75 23.75"
-            stroke="#99F6E4"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      </Link>
+      <Logo />
 
       <div className="flex items-center gap-4">
         <select
