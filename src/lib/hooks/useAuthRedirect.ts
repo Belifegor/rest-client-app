@@ -13,7 +13,11 @@ export function useAuthRedirect() {
   useEffect((): (() => void) => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null): void => {
       if (user) {
-        router.replace(ROUTES.HOME);
+        setCheckingAuth(true);
+
+        setTimeout((): void => {
+          router.replace(ROUTES.HOME);
+        }, 200);
       } else {
         setCheckingAuth(false);
       }
