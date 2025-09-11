@@ -8,6 +8,7 @@ import { passwordRequirements } from "@/lib/validation/password-requirements";
 import { signUpAction } from "@/lib/actions/sign-up-action";
 import { FormState } from "@/types/types";
 import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
+import Loader from "../../components/ui/Loader";
 
 const initialState: FormState = { error: null };
 
@@ -16,13 +17,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const { checkingAuth } = useAuthRedirect();
 
-  if (checkingAuth) {
-    return (
-      <div className="flex flex-1 items-center justify-center bg-gray-900 text-white">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  if (checkingAuth) return <Loader />;
 
   return (
     <div className="flex flex-1 items-center justify-center p-6 bg-gray-900 text-white">

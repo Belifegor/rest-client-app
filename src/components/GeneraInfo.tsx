@@ -23,8 +23,7 @@ export default function GeneralInfo() {
           This app is a lightweight REST client similar to Postman. You can make API calls, manage
           request history, and handle authorization with ease. Users can select HTTP methods, add
           custom headers, and view responses directly in the app. This application supports any open
-          API and ensures smooth server-side requests using Next.js App Router or React Router 7
-          Framework mode.
+          API and ensures smooth server-side requests using Next.js App Router.
         </p>
       </div>
 

@@ -6,6 +6,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import WelcomeMessage from "@/components/WelcomeMessage";
 import GeneralInfo from "@/components/GeneraInfo";
 import { UserButtons } from "@/components/ui/UserButtons";
+import Loader from "../components/ui/Loader";
 
 export default function HomePage() {
   const [user, setUser] = useState<User | null>(null);
@@ -19,9 +20,7 @@ export default function HomePage() {
     return (): void => unsubscribe();
   }, []);
 
-  if (loading) {
-    return <div className="flex items-center justify-center h-screen text-white">Loading...</div>;
-  }
+  if (loading) return <Loader />;
 
   const isAuthenticated: boolean = !!user;
   const username: string = user?.displayName || "Jacob Schmidt";
