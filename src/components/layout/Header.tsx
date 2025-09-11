@@ -3,17 +3,40 @@
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Header() {
+  const [user, setUser] = useState<User | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  useEffect((): (() => void) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser): void => {
+      setUser(currentUser);
+    });
+    return (): void => unsubscribe();
+  }, []);
 
   useEffect((): (() => void) => {
     const onScroll: () => void = (): void => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return (): void => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleSignOut: () => Promise<void> = async (): Promise<void> => {
+    try {
+      await signOut(auth);
+      router.push(ROUTES.HOME);
+      toast.success("You have been signed out");
+    } catch {
+      toast.error("Failed to sign out. Please try again.");
+    }
+  };
+
+  const isAuthenticated: boolean = !!user;
 
   return (
     <header
@@ -58,12 +81,20 @@ export default function Header() {
         </select>
 
         {isAuthenticated ? (
-          <button
-            onClick={(): void => setIsAuthenticated(false)}
-            className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
-          >
-            Sign Out
-          </button>
+          <>
+            <Link
+              href={ROUTES.HOME}
+              className="bg-gradient-to-r from-sky-600 to-blue-600/80 hover:from-sky-700 hover:to-blue-700/80 px-3 py-1 rounded text-sm cursor-pointer"
+            >
+              Main Page
+            </Link>
+            <button
+              onClick={handleSignOut}
+              className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
+            >
+              Sign Out
+            </button>
+          </>
         ) : (
           <>
             <Link
