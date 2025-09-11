@@ -1,4 +1,4 @@
-# Pull Request Template
+# Pull Request
 
 ## Description
 
@@ -6,9 +6,9 @@
 
 ## Type of Change
 
-- [ ] 🚀 Feature (new functionality)
+- [x] 🚀 Feature (new functionality)
 - [ ] 🐛 Bug fix (error correction)
-- [ ] ♻️ Refactor (code refactoring)
+- [x] ♻️ Refactor (code refactoring)
 - [ ] 📚 Documentation (documentation update)
 - [ ] 🧪 Test (adding tests)
 - [ ] 🔧 Config (configuration changes)
@@ -20,7 +20,7 @@
 
 - [ ] ✅ Local testing completed
 - [ ] 🧪 Tests added/updated
-- [ ] 🌐 Tested in the latest version of the Google Chrome
+- [x] 🌐 Tested in the latest version of the Google Chrome
 
 ### Test Scenarios
 
@@ -31,13 +31,6 @@
 ## Screenshots/GIFs
 
 <!-- Visual evidence of work (if applicable) -->
-
-## Checklist
-
-- [ ] Code follows project style guide
-- [ ] All tests passing
-- [ ] All CI/CD checks passed
-- [ ] Code review completed (min 1 approval)
 
 ## Additional Notes
 
