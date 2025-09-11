@@ -5,14 +5,23 @@ import { ROUTES } from "@/constants/routes";
 import { FormState } from "@/types/types";
 import { signInAction } from "@/lib/actions/sign-in-action";
 import Link from "next/link";
+import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
 
 export default function SignInPage() {
   const initialState: FormState = { error: null };
-
   const [state, formAction, isPending] = useActionState<FormState, FormData>(
     signInAction,
     initialState
   );
+  const { checkingAuth } = useAuthRedirect();
+
+  if (checkingAuth) {
+    return (
+      <div className="flex flex-1 items-center justify-center bg-gray-900 text-white">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-1 items-center justify-center p-6 bg-gray-900 text-white">
