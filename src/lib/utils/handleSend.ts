@@ -37,7 +37,7 @@ export async function handleSend({
 
   try {
     const headersObj = Object.fromEntries(
-      headers.filter((h) => h.key.trim()).map((h) => [h.key, h.value])
+      headers.filter((h) => h.key.trim()).map((h) => [h.key.trim(), h.value])
     );
 
     const hasBody = ["POST", "PUT", "PATCH", "DELETE"].includes(method);
