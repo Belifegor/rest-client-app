@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { auth } from "@/lib/firebase";
+import { auth } from "@/db/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import WelcomeMessage from "@/components/WelcomeMessage";
 import GeneralInfo from "@/components/GeneraInfo";

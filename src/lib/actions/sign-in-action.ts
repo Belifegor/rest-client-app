@@ -1,4 +1,4 @@
-import { auth } from "@/lib/firebase";
+import { auth } from "@/db/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormState } from "@/types/types";
 import { parseError } from "@/lib/utils/parseError";

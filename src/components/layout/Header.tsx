@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { useEffect, useState } from "react";
-import { auth } from "@/lib/firebase";
+import { auth } from "@/db/firebase";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { toast } from "sonner";
 import Logo from "@/components/ui/custom/Logo";
