@@ -1,8 +1,13 @@
 import { z } from "zod";
 
-export const addVariableSchema = z.object({
-  name: z.string().min(1, "Name is required").regex(/^\S*$/, "Name should not contain spaces"),
-  value: z.string().min(1, "Value is required"),
-});
+export const createAddVariableSchema = (t: (i: string) => string) => {
+  return z.object({
+    name: z
+      .string()
+      .min(1, t("validation-error.name-required"))
+      .regex(/^\S*$/, t("validation-error.name-spaces")),
+    value: z.string().min(1, t("validation-error.value-required")),
+  });
+};
 
-export type AddVariableData = z.infer<typeof addVariableSchema>;
+export type AddVariableData = z.infer<ReturnType<typeof createAddVariableSchema>>;

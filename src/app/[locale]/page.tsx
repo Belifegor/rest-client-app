@@ -6,7 +6,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import WelcomeMessage from "@/components/WelcomeMessage";
 import GeneralInfo from "@/components/GeneraInfo";
 import { UserButtons } from "@/components/ui/custom/UserButtons";
-import Loader from "../components/ui/custom/Loader";
+import Loader from "@/components/ui/custom/Loader";
 
 export default function HomePage() {
   const [user, setUser] = useState<User | null>(null);

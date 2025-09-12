@@ -5,9 +5,7 @@ import { HttpMethod, useRequest } from "@/store/request.store";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { handleSend } from "@/lib/utils/handleSend";
-
-const REQUEST_TABS: string[] = ["params", "headers", "body", "auth"];
-const RESPONSE_TABS: string[] = ["body", "headers"];
+import { useTranslations } from "next-intl";
 
 export default function RestClient() {
   const {
@@ -30,6 +28,15 @@ export default function RestClient() {
   const [respBody, setRespBody] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const t = useTranslations("Client");
+  const REQUEST_TABS: string[] = [
+    t("request-tabs.params"),
+    t("request-tabs.headers"),
+    t("request-tabs.body"),
+    t("request-tabs.auth"),
+  ];
+  const RESPONSE_TABS: string[] = [t("response-tabs.body"), t("response-tabs.headers")];
 
   return (
     <div className="flex flex-col gap-4 h-full bg-gray-900 text-white p-4">
@@ -67,11 +74,11 @@ export default function RestClient() {
             })
           }
         >
-          {isLoading ? "Sending..." : "Send"}
+          {isLoading ? t("button.loading") : t("button.normal")}
         </Button>
       </div>
 
-      <Tabs defaultValue="params" className="flex-1 flex flex-col">
+      <Tabs defaultValue={t("request-tabs.params")} className="flex-1 flex flex-col">
         <TabsList className="w-fit mb-2 bg-gray-800 rounded">
           {REQUEST_TABS.map((tab) => (
             <TabsTrigger
@@ -84,32 +91,32 @@ export default function RestClient() {
           ))}
         </TabsList>
         <div className="flex-1 border border-gray-700 rounded bg-gray-800 overflow-auto">
-          <TabsContent value="params" className="p-4 text-sm text-gray-300">
-            Add query parameters here…
+          <TabsContent value={t("request-tabs.params")} className="p-4 text-sm text-gray-300">
+            {t("params-input-placeholder")}
           </TabsContent>
-          <TabsContent value="headers" className="p-4 text-sm text-gray-300">
+          <TabsContent value={t("request-tabs.headers")} className="p-4 text-sm text-gray-300">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between mb-2">
-                <span className="text-gray-400">Request headers</span>
+                <span className="text-gray-400">{t("headers.title")}</span>
                 <Button
                   size="sm"
                   className="bg-gray-600 hover:bg-gray-500 text-white"
                   onClick={addHeader}
                 >
-                  Add
+                  {t("headers.add")}
                 </Button>
               </div>
               <div className="space-y-2">
                 {headers.map((h) => (
                   <div key={h.id} className="flex gap-2">
                     <Input
-                      placeholder="Header Key"
+                      placeholder={t("headers.input.key")}
                       className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                       value={h.key}
                       onChange={(e) => updateHeader(h.id, { key: e.target.value })}
                     />
                     <Input
-                      placeholder="Header Value"
+                      placeholder={t("headers.input.value")}
                       className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                       value={h.value}
                       onChange={(e) => updateHeader(h.id, { value: e.target.value })}
@@ -120,7 +127,7 @@ export default function RestClient() {
                       className="bg-gray-600 hover:bg-gray-500 text-white"
                       onClick={() => removeHeader(h.id)}
                     >
-                      Delete
+                      {t("headers.delete")}
                     </Button>
                   </div>
                 ))}
@@ -128,10 +135,10 @@ export default function RestClient() {
             </div>
           </TabsContent>
 
-          <TabsContent value="body" className="p-4 text-sm text-gray-300">
+          <TabsContent value={t("request-tabs.body")} className="p-4 text-sm text-gray-300">
             <textarea
               className="w-full h-48 bg-gray-700 border border-gray-600 rounded p-2 font-mono text-sm text-white placeholder-gray-400"
-              placeholder="Enter JSON or text here…"
+              placeholder={t("body.input")}
               value={body}
               onChange={(e) => setBody(e.target.value)}
             />
@@ -145,31 +152,31 @@ export default function RestClient() {
                     const pretty = JSON.stringify(JSON.parse(body || "{}"), null, 2);
                     setBody(pretty);
                   } catch {
-                    alert("Invalid JSON. Cannot prettify.");
+                    alert(t("body.alert"));
                   }
                 }}
               >
-                Prettify
+                {t("body.prettify")}
               </Button>
             </div>
           </TabsContent>
 
-          <TabsContent value="auth" className="p-4 text-sm text-gray-300">
-            Configure authentication here…
+          <TabsContent value={t("request-tabs.auth")} className="p-4 text-sm text-gray-300">
+            {t("auth-input")}
           </TabsContent>
         </div>
       </Tabs>
 
       <div className="flex-1 flex flex-col">
-        <h2 className="text-lg font-semibold mb-2">Response</h2>
+        <h2 className="text-lg font-semibold mb-2">{t("response.title")}</h2>
 
         <div className="flex items-center gap-2 mb-2">
-          <span className="font-semibold text-sm">Status:</span>
+          <span className="font-semibold text-sm">{t("response.status")}:</span>
           <span className="text-sm text-gray-300">{respStatus ?? "—"}</span>
           {errorMsg && <span className="text-sm text-red-400">• {errorMsg}</span>}
         </div>
 
-        <Tabs defaultValue="body" className="flex-1 flex flex-col">
+        <Tabs defaultValue={t("response-tabs.body")} className="flex-1 flex flex-col">
           <TabsList className="w-fit mb-2 bg-gray-800 rounded">
             {RESPONSE_TABS.map((tab) => (
               <TabsTrigger
@@ -182,8 +189,10 @@ export default function RestClient() {
             ))}
           </TabsList>
           <div className="flex-1 border border-gray-700 rounded bg-gray-800 overflow-auto p-4 text-sm font-mono text-gray-300">
-            <TabsContent value="body">{respBody || "Response body will appear here…"}</TabsContent>
-            <TabsContent value="headers">
+            <TabsContent value={t("response-tabs.body")}>
+              {respBody || t("response.body")}
+            </TabsContent>
+            <TabsContent value={t("response-tabs.headers")}>
               {respHeaders.length ? (
                 <ul className="space-y-1">
                   {respHeaders.map(([k, v]) => (
@@ -193,7 +202,7 @@ export default function RestClient() {
                   ))}
                 </ul>
               ) : (
-                "Response headers will appear here…"
+                t("response.headers")
               )}
             </TabsContent>
           </div>

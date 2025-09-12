@@ -1,6 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 export default function Loader() {
+  const t = useTranslations("Main");
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-gray-900 text-white space-y-6">
       <div className="flex space-x-3">
@@ -10,7 +14,7 @@ export default function Loader() {
         <span className="w-3 h-12 bg-gradient-to-t from-teal-500 to-green-400 rounded animate-wave delay-300"></span>
         <span className="w-3 h-12 bg-gradient-to-t from-teal-500 to-green-400 rounded animate-wave delay-400"></span>
       </div>
-      <p className="text-gray-300 text-lg font-medium tracking-wide">Loading...</p>
+      <p className="text-gray-300 text-lg font-medium tracking-wide">{t("loader")}</p>
     </div>
   );
 }
