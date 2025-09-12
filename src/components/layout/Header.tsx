@@ -5,14 +5,15 @@ import { ROUTES } from "@/constants/routes";
 import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Logo from "@/components/ui/custom/Logo";
+import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const router = useRouter();
+
+  useAuthRedirect();
 
   useEffect((): (() => void) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser): void => {
@@ -30,7 +31,6 @@ export default function Header() {
   const handleSignOut: () => Promise<void> = async (): Promise<void> => {
     try {
       await signOut(auth);
-      router.push(ROUTES.HOME);
       toast.success("You have been signed out");
     } catch {
       toast.error("Failed to sign out. Please try again.");
