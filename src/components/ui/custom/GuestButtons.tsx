@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "./button";
-import { ROUTES } from "@/constants/routes";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ROUTES } from "@/constants/routes";
 
-export function UserButtons() {
+export function GuestButtons() {
   return (
     <div className="flex gap-4 flex-wrap justify-center w-full">
       <Button
@@ -13,21 +13,16 @@ export function UserButtons() {
                    hover:from-teal-700 hover:to-green-700/80
                    text-white px-6 py-2 rounded shadow-md transition w-32"
       >
-        <Link href={ROUTES.CLIENT}>REST Client</Link>
+        <Link href={ROUTES.SIGN_IN}>Sign In</Link>
       </Button>
       <Button
+        variant="secondary"
         asChild
-        className="bg-gray-800 hover:bg-gray-700
+        className="bg-gradient-to-r from-slate-600 to-gray-600/80
+                   hover:from-slate-700 hover:to-gray-700/80
                    text-white px-6 py-2 rounded shadow-md transition w-32"
       >
-        <Link href={ROUTES.HISTORY}>History</Link>
-      </Button>
-      <Button
-        asChild
-        className="bg-gray-800 hover:bg-gray-700
-                   text-white px-6 py-2 rounded shadow-md transition w-32"
-      >
-        <Link href={ROUTES.VARIABLES}>Variables</Link>
+        <Link href={ROUTES.SIGN_UP}>Sign Up</Link>
       </Button>
     </div>
   );

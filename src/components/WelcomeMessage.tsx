@@ -1,4 +1,4 @@
-import { GuestButtons } from "@/components/ui/GuestButtons";
+import { GuestButtons } from "@/components/ui/custom/GuestButtons";
 
 type WelcomeMessageProps = {
   isAuthenticated?: boolean;
