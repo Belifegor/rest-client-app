@@ -7,8 +7,11 @@ import Link from "next/link";
 import { FC } from "react";
 import { DeveloperCardProps } from "@/types/types";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export const DeveloperCard: FC<DeveloperCardProps> = ({ member }) => {
+  const t = useTranslations("Main");
+
   return (
     <Card className="h-130 p-4 flex flex-col items-center gap-4 bg-gray-900 shadow-lg rounded-2xl transition-transform hover:scale-105 overflow-auto">
       <Image
@@ -21,14 +24,14 @@ export const DeveloperCard: FC<DeveloperCardProps> = ({ member }) => {
 
       <CardContent className="flex flex-col items-center gap-2 p-0 w-full h-full">
         <div className="flex flex-col items-center text-center">
-          <Label className="text-xl font-semibold text-white">{member.name}</Label>
-          <p className="text-md text-green-300 font-medium mb-2">{member.role}</p>
-          <p className="text-sm text-gray-300">{member.description}</p>
+          <Label className="text-xl font-semibold text-white">{t(member.name)}</Label>
+          <p className="text-md text-green-300 font-medium mb-2">{t(member.role)}</p>
+          <p className="text-sm text-gray-300">{t(member.description)}</p>
         </div>
 
         <ul className="list-disc list-inside mt-2 text-sm text-gray-400 text-left flex-grow w-full">
           {member.contributions.map((item, idx) => (
-            <li key={idx}>{item}</li>
+            <li key={idx}>{t(item)}</li>
           ))}
         </ul>
 

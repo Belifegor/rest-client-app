@@ -1,5 +1,165 @@
 {
-  "VariablesPage": {
-    "title": "Variables"
+  "Header": {
+    "button": {
+      "sign-in": "Sign In",
+      "sign-up": "Sign Up",
+      "sign-out": "Sign Out"
+    }
+  },
+  "SignIn": {
+    "title": "Sign In",
+    "email-label": "Email",
+    "password": {
+      "label": "Password",
+      "placeholder": "Your password"
+    },
+    "button": {
+      "loading": "Signing in…",
+      "normal": "Sign In"
+    },
+    "no-account": "No account?",
+    "link-su": "Create one"
+  },
+  "SignUp": {
+    "title": "Sign Up",
+    "email-label": "Email",
+    "password": {
+      "label": "Password",
+      "placeholder": "At least 8 characters"
+    },
+    "confirm-password": {
+      "label": "Confirm Password",
+      "placeholder": "Repeat your password"
+    },
+    "button": {
+      "loading": "Creating account...",
+      "normal": "Create account"
+    },
+    "have-account": "Already have an account?",
+    "link-si": "Sign in",
+    "password-requirements": {
+      "characters": "At least 8 characters",
+      "letter": "At least one letter",
+      "digit": "At least one digit",
+      "special": "At least one special character"
+    }
+  },
+  "Main": {
+    "loader": "Loading…",
+    "welcome": {
+      "greetings": "Welcome!",
+      "greetings-back": "Welcome Back, ",
+      "sign-in": "Sign In",
+      "sign-up": "Sign Up"
+    },
+    "buttons": {
+      "client": "REST Client",
+      "history": "History",
+      "variables": "Variables"
+    },
+    "about-project": {
+      "title": "About project:",
+      "description": "This app is a lightweight REST client similar to Postman. You can make API calls, manage request history, and handle authorization with ease. Users can select HTTP methods, add custom headers, and view responses directly in the app. This application supports any open API and ensures smooth server-side requests using Next.js App Router or React Router 7 Framework mode."
+    },
+    "about-us": {
+      "title": "About us:",
+      "description": "Our team of three developers worked closely together to design and implement this application. A Kanban board was used to organize tasks. Communication was maintained continuously via Discord to coordinate activities efficiently. Throughout the development process, code quality was ensured through regular reviews and careful checking of pull requests.",
+      "names": {
+        "alexandr": "Alexandr Cebotari",
+        "anna": "Anna Smirnova",
+        "victoria": "Victoria Ternovaya"
+      },
+      "roles": {
+        "teamLead": "Team Lead",
+        "developer": "Developer"
+      },
+      "descriptions": {
+        "alexandr": "I work as a system administrator at CRM Genesys and making settings for NLU Omilia chat-bot. My work partially overlaps with the Javascript language, which sparked my interest in learning.",
+        "anna": "I dream of bringing my experience in business analysis and UX design into frontend development to make someone's user experience better.",
+        "victoria": "I have professional experience as a news editor and 3D visualizer, and since 2024, I have been studying frontend development."
+      },
+      "contributions": {
+        "requestEditor": "Request editor scaffold",
+        "responsePanel": "Response panel",
+        "prettifyJson": "Prettify body JSON",
+        "base64Encoding": "Base64 encoding URL/body",
+        "urlMethodSelector": "URL + method selector",
+        "headersSection": "Headers section",
+        "codeGeneration": "Code generation section",
+        "projectPlanning": "Project tasks planning and assignment",
+        "variables": "Variables",
+        "history": "History functionality",
+        "analytics": "Analytics recording",
+        "langSupport": "Lang support (en + ru)",
+        "errorUI": "Error UI",
+        "mainPage": "Main Page content",
+        "tokenUI": "Token UI state",
+        "authRoutes": "Auth routes navigation",
+        "firebaseAuth": "Sign In form/Sign Up form with Firebase",
+        "signOut": "Sign Out"
+      }
+    },
+    "about-program": {
+      "title": "About program:",
+      "description": "RS School offers a free, community-driven online education program. Through the React React course, students learn modern React development, including component architecture, state management, hooks, and routing. Since 2013, over 600 mentors worldwide have contributed to providing guidance and support for developers."
+    }
+  },
+  "Client": {
+    "button": {
+      "loading": "Sending...",
+      "normal": "Send"
+    },
+    "request-tabs": {
+      "params": "params",
+      "headers": "headers",
+      "body": "body",
+      "auth": "auth"
+    },
+    "response-tabs": {
+      "body": "body",
+      "headers": "headers"
+    },
+    "params-input-placeholder": "Add query parameters here…",
+    "headers": {
+      "title": "Request headers",
+      "add": "Add",
+      "input": {
+        "key": "Header Key",
+        "value": "Header Value"
+      },
+      "delete": "Delete"
+    },
+    "body": {
+      "input": "Enter JSON or text here…",
+      "alert": "Invalid JSON. Cannot prettify.",
+      "prettify": "Prettify"
+    },
+    "auth-input": "Configure authentication here…",
+    "response": {
+      "title": "Response",
+      "status": "Status",
+      "body": "Response body will appear here…",
+      "headers": "Response headers will appear here…"
+    }
+  },
+  "Variables": {
+    "title": "Variables",
+    "input-placeholder": {
+      "name": "Name",
+      "value": "Value"
+    },
+    "button-add": "Add variable",
+    "no-variables-message": "No variables here. Add a variable to get started!",
+    "table": {
+      "name": "Name",
+      "value": "Value",
+      "delete": "Delete"
+    },
+    "toast-duplicate-message": "Variable {name} already exists!",
+    "validation-error": {
+      "name-required": "Name is required",
+      "name-spaces": "Name should not contain spaces",
+      "value-required": "Value is required"
+    }
   }
 }

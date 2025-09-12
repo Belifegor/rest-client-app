@@ -5,9 +5,10 @@ import { ROUTES } from "@/constants/routes";
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { usePathname } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function Header() {
+  const t = useTranslations("Header");
   const [scrolled, setScrolled] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -77,7 +78,7 @@ export default function Header() {
             onClick={(): void => setIsAuthenticated(false)}
             className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
           >
-            Sign Out
+            {t("button.sign-out")}
           </button>
         ) : (
           <>
@@ -85,13 +86,13 @@ export default function Header() {
               href={ROUTES.SIGN_IN}
               className="bg-gradient-to-r from-sky-600 to-blue-600/80 hover:from-sky-700 hover:to-blue-700/80 px-3 py-1 rounded text-sm cursor-pointer"
             >
-              Sign In
+              {t("button.sign-in")}
             </Link>
             <Link
               href={ROUTES.SIGN_UP}
               className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
             >
-              Sign Up
+              {t("button.sign-up")}
             </Link>
           </>
         )}
