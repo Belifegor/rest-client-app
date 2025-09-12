@@ -2,31 +2,32 @@
 
 import { useEffect, useState } from "react";
 import { auth } from "@/db/firebase";
-import { onIdTokenChanged, User } from "firebase/auth";
-import { useRouter } from "next/navigation";
-import { ROUTES } from "@/constants/routes";
+import { onIdTokenChanged, User, getIdTokenResult } from "firebase/auth";
 import { toast } from "sonner";
 
 export function useAuthToken() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
-  useEffect(() => {
-    const unsubscribe = onIdTokenChanged(auth, async (currentUser) => {
+  useEffect((): (() => void) => {
+    const unsubscribe = onIdTokenChanged(auth, async (currentUser: User | null): Promise<void> => {
       if (currentUser) {
-        const token = await currentUser.getIdToken();
-        toast.message(`"Current user token:", ${token}`);
-        setUser(currentUser);
+        try {
+          const tokenResult = await getIdTokenResult(currentUser);
+          const token: string = tokenResult.token;
+          toast.message(`Current user token: ${token}`);
+          setUser(currentUser);
+        } catch {
+          setUser(null);
+        }
       } else {
         setUser(null);
-        router.push(ROUTES.HOME);
       }
       setLoading(false);
     });
 
-    return () => unsubscribe();
-  }, [router]);
+    return (): void => unsubscribe();
+  }, []);
 
   return { user, loading };
 }
