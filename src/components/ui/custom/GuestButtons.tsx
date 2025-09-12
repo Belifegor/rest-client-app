@@ -14,15 +14,16 @@ export function GuestButtons() {
         asChild
         className="bg-gradient-to-r from-teal-600 to-green-600/80
                    hover:from-teal-700 hover:to-green-700/80
-                   text-white px-6 py-2 rounded shadow-md transition w-32"
+                   text-white px-6 py-2 rounded shadow-md transition w-42"
       >
         <Link href={ROUTES.SIGN_IN}>{t("welcome.sign-in")}</Link>
       </Button>
       <Button
         variant="secondary"
         asChild
-        className="bg-gray-800 hover:bg-gray-700
-                   text-white px-6 py-2 rounded shadow-md transition w-32"
+        className="bg-gradient-to-r from-slate-600 to-gray-600/80
+                   hover:from-slate-700 hover:to-gray-700/80
+                   text-white px-6 py-2 rounded shadow-md transition w-42"
       >
         <Link href={ROUTES.SIGN_UP}>{t("welcome.sign-up")}</Link>
       </Button>

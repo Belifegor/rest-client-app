@@ -3,7 +3,12 @@
     "button": {
       "sign-in": "Sign In",
       "sign-up": "Sign Up",
-      "sign-out": "Sign Out"
+      "sign-out": "Sign Out",
+      "main": "Main Page"
+    },
+    "toast": {
+      "success": "You have been signed out",
+      "error": "Failed to sign out. Please try again."
     }
   },
   "SignIn": {
@@ -59,7 +64,7 @@
     },
     "about-project": {
       "title": "About project:",
-      "description": "This app is a lightweight REST client similar to Postman. You can make API calls, manage request history, and handle authorization with ease. Users can select HTTP methods, add custom headers, and view responses directly in the app. This application supports any open API and ensures smooth server-side requests using Next.js App Router or React Router 7 Framework mode."
+      "description": "This app is a lightweight REST client similar to Postman. You can make API calls, manage request history, and handle authorization with ease. Users can select HTTP methods, add custom headers, and view responses directly in the app. This application supports any open API and ensures smooth server-side requests using Next.js App Router."
     },
     "about-us": {
       "title": "About us:",
@@ -161,5 +166,9 @@
       "name-spaces": "Name should not contain spaces",
       "value-required": "Value is required"
     }
+  },
+  "NotFound": {
+    "text": "Oops! The page you are looking for doesn’t exist or has been moved.",
+    "link": "Go Home"
   }
 }

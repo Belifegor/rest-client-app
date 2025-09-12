@@ -5,11 +5,10 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import WelcomeMessage from "@/components/WelcomeMessage";
 import GeneralInfo from "@/components/GeneraInfo";
-import { UserButtons } from "@/components/ui/UserButtons";
-import { useTranslations } from "next-intl";
+import { UserButtons } from "@/components/ui/custom/UserButtons";
+import Loader from "@/components/ui/custom/Loader";
 
 export default function HomePage() {
-  const t = useTranslations("Main");
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,11 +20,7 @@ export default function HomePage() {
     return (): void => unsubscribe();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen text-white">{t("loader")}</div>
-    );
-  }
+  if (loading) return <Loader />;
 
   const isAuthenticated: boolean = !!user;
   const username: string = user?.displayName || "Jacob Schmidt";

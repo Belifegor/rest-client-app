@@ -1,7 +1,7 @@
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormState } from "@/types/types";
-import { redirectToHome, parseError } from "@/lib/utils/forms";
+import { parseError } from "@/lib/utils/parseError";
 
 export async function signInAction(_prevState: FormState, formData: FormData): Promise<FormState> {
   const email = formData.get("email") as string;
@@ -13,7 +13,6 @@ export async function signInAction(_prevState: FormState, formData: FormData): P
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    redirectToHome();
     return { error: null };
   } catch (err: unknown) {
     return { error: parseError(err) };

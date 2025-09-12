@@ -7,6 +7,8 @@ import { ROUTES } from "@/constants/routes";
 import { passwordRequirements } from "@/lib/validation/password-requirements";
 import { signUpAction } from "@/lib/actions/sign-up-action";
 import { FormState } from "@/types/types";
+import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
+import Loader from "@/components/ui/custom/Loader";
 import { useTranslations } from "next-intl";
 
 const initialState: FormState = { error: null };
@@ -15,6 +17,9 @@ export default function SignUpPage() {
   const t = useTranslations("SignUp");
   const [state, formAction, isPending] = useActionState(signUpAction, initialState);
   const [password, setPassword] = useState("");
+  const { checkingAuth } = useAuthRedirect();
+
+  if (checkingAuth) return <Loader />;
 
   return (
     <div className="flex flex-1 items-center justify-center p-6 bg-gray-900 text-white">
@@ -52,7 +57,9 @@ export default function SignUpPage() {
               return (
                 <li
                   key={req.label}
-                  className={`flex items-center gap-2 ${passed ? "text-green-400" : "text-red-400"}`}
+                  className={`flex items-center gap-2 ${
+                    passed ? "text-green-400" : "text-red-400"
+                  }`}
                 >
                   {passed ? "✔️" : "❌"} {t(req.label)}
                 </li>
