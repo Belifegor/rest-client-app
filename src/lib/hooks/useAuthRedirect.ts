@@ -13,7 +13,9 @@ export function useAuthRedirect() {
   const prevUserRef = useRef<User | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect((): (() => void) => {
+  useEffect((): (() => void) | undefined => {
+    if (typeof window === "undefined") return;
+
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null): Promise<void> => {
       const prevUser: User | null = prevUserRef.current;
 
@@ -21,12 +23,11 @@ export function useAuthRedirect() {
         try {
           const tokenResult = await getIdTokenResult(user);
           const realExpiresAt: number = new Date(tokenResult.expirationTime).getTime();
-
           const delay: number = realExpiresAt - Date.now();
 
           if (timerRef.current) clearTimeout(timerRef.current);
 
-          timerRef.current = setTimeout(async (): Promise<void> => {
+          timerRef.current = setTimeout(async () => {
             toast.error("Session expired. You have been signed out.");
             await auth.signOut();
             router.push(ROUTES.HOME);
