@@ -19,6 +19,15 @@ export async function signUpAction(_prevState: FormState, formData: FormData): P
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
     await updateProfile(userCredential.user, { displayName: data.email.split("@")[0] });
+
+    const idToken = await userCredential.user.getIdToken();
+
+    await fetch("/api/session", {
+      method: "POST",
+      body: JSON.stringify({ token: idToken }),
+      headers: { "Content-Type": "application/json" },
+    });
+
     return { error: null };
   } catch (err: unknown) {
     return { error: parseError(err) };

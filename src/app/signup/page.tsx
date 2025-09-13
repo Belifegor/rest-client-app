@@ -32,6 +32,7 @@ export default function SignUpPage() {
               name="email"
               placeholder="example@email.com"
               className="mt-1 rounded bg-gray-900 border border-gray-700 px-3 py-2 outline-none focus:ring-2 focus:ring-teal-500"
+              autoComplete="username"
               required
             />
           </label>
@@ -45,6 +46,7 @@ export default function SignUpPage() {
               className="mt-1 rounded bg-gray-900 border border-gray-700 px-3 py-2 outline-none focus:ring-2 focus:ring-teal-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
               required
             />
           </label>
@@ -72,6 +74,7 @@ export default function SignUpPage() {
               name="confirmPassword"
               placeholder="Repeat your password"
               className="mt-1 rounded bg-gray-900 border border-gray-700 px-3 py-2 outline-none focus:ring-2 focus:ring-teal-500"
+              autoComplete="new-password"
               required
             />
           </label>

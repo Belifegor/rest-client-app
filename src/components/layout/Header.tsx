@@ -13,7 +13,7 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
-  useAuthRedirect();
+  const { signedOutRef } = useAuthRedirect();
 
   useEffect((): (() => void) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser): void => {
@@ -30,7 +30,9 @@ export default function Header() {
 
   const handleSignOut: () => Promise<void> = async (): Promise<void> => {
     try {
+      signedOutRef.current = true;
       await signOut(auth);
+      await fetch("/api/session", { method: "DELETE" });
       toast.success("You have been signed out");
     } catch {
       toast.error("Failed to sign out. Please try again.");

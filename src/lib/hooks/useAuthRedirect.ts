@@ -3,65 +3,87 @@
 import { useEffect, useRef, useState } from "react";
 import { auth } from "@/db/firebase";
 import { onAuthStateChanged, User, getIdTokenResult } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import { toast } from "sonner";
+import { PROTECTED_PATHS } from "@/constants/protected-paths";
+
+const REDIRECT_ON_AUTH_PATHS = [ROUTES.SIGN_IN, ROUTES.SIGN_UP];
 
 export function useAuthRedirect() {
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+  const pathname: string = usePathname();
   const prevUserRef = useRef<User | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const signedOutRef = useRef(false);
 
   useEffect((): (() => void) | undefined => {
     if (typeof window === "undefined") return;
 
-    const unsubscribe = onAuthStateChanged(auth, async (user: User | null): Promise<void> => {
-      const prevUser: User | null = prevUserRef.current;
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      async (currentUser: User | null): Promise<void> => {
+        setUser(currentUser);
+        const prevUser: User | null = prevUserRef.current;
 
-      if (user) {
-        try {
-          const tokenResult = await getIdTokenResult(user);
-          const realExpiresAt: number = new Date(tokenResult.expirationTime).getTime();
-          const delay: number = realExpiresAt - Date.now();
+        if (currentUser) {
+          signedOutRef.current = false;
 
-          if (timerRef.current) clearTimeout(timerRef.current);
+          try {
+            const tokenResult = await getIdTokenResult(currentUser);
+            const realExpiresAt: number = new Date(tokenResult.expirationTime).getTime();
+            const delay: number = realExpiresAt - Date.now();
 
-          timerRef.current = setTimeout(async () => {
-            toast.error("Session expired. You have been signed out.");
+            if (timerRef.current) clearTimeout(timerRef.current);
+            timerRef.current = setTimeout(
+              async (): Promise<void> => {
+                toast.error("Session expired. You have been signed out.");
+                signedOutRef.current = true;
+                await fetch("/api/session", { method: "DELETE" });
+                await auth.signOut();
+              },
+              Math.max(0, delay)
+            );
+
+            const isAuthPage: boolean = REDIRECT_ON_AUTH_PATHS.some(
+              (p): boolean => pathname === p || pathname.endsWith(p)
+            );
+
+            if (isAuthPage && (!prevUser || prevUser.uid !== currentUser.uid)) {
+              setCheckingAuth(true);
+              setTimeout((): void => router.push(ROUTES.HOME), 200);
+            } else {
+              setCheckingAuth(false);
+            }
+          } catch (err) {
+            toast.error(`Authentication error. You have been signed out. ${err}`);
+            signedOutRef.current = true;
             await auth.signOut();
-            router.push(ROUTES.HOME);
-          }, delay);
-
-          if (!prevUser || prevUser !== user) {
             setCheckingAuth(true);
-            setTimeout((): void => {
-              router.push(ROUTES.HOME);
-            }, 200);
-          } else {
-            setCheckingAuth(false);
+            router.push(ROUTES.HOME);
           }
-        } catch (err) {
-          toast.error(`Authentication error. You have been signed out. ${err}`);
-          await auth.signOut();
-          setCheckingAuth(true);
-          router.push(ROUTES.HOME);
+        } else {
+          if (
+            signedOutRef.current ||
+            PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(path + "/"))
+          ) {
+            router.push(ROUTES.HOME);
+            signedOutRef.current = false;
+          }
+          setCheckingAuth(false);
         }
-      } else if (!user && prevUser) {
-        setCheckingAuth(true);
-        router.push(ROUTES.HOME);
-      } else {
-        setCheckingAuth(false);
-      }
 
-      prevUserRef.current = user;
-    });
+        prevUserRef.current = currentUser;
+      }
+    );
 
     return (): void => {
       unsubscribe();
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [router]);
+  }, [router, pathname]);
 
-  return { checkingAuth };
+  return { checkingAuth, user, signedOutRef };
 }
