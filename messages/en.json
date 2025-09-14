@@ -154,7 +154,8 @@
       "value": "Value"
     },
     "button-add": "Add variable",
-    "no-variables-message": "No variables here. Add a variable to get started!",
+    "no-variables-message": "No variables here!",
+    "no-variables-hint": "Add your first variable to get started.",
     "table": {
       "name": "Name",
       "value": "Value",

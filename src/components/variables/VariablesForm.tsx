@@ -21,7 +21,7 @@ function VariablesForm() {
       addVariable(newVariable);
       reset();
     } else {
-      toast(t("toast-duplicate-message", { name: data.name }));
+      toast.error(t("toast-duplicate-message", { name: data.name }));
     }
   };
 
@@ -45,7 +45,7 @@ function VariablesForm() {
           {...register("name")}
         ></Input>
         {errors.name && (
-          <p className="text-red-400 text-xs text-left mt-1">{errors.name.message}</p>
+          <p className="text-red-400 text-xs text-left mt-2">{errors.name.message}</p>
         )}
       </div>
       <div>
@@ -56,7 +56,7 @@ function VariablesForm() {
           {...register("value")}
         ></Input>
         {errors.value && (
-          <p className="text-red-400 text-xs text-left mt-1">{errors.value.message}</p>
+          <p className="text-red-400 text-xs text-left mt-2">{errors.value.message}</p>
         )}
       </div>
       <Button
