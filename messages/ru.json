@@ -153,7 +153,10 @@
       "name": "Имя",
       "value": "Значение"
     },
-    "button-add": "Добавить переменную",
+    "button": {
+      "loading": "Добавляем...",
+      "normal": "Добавить переменную"
+    },
     "no-variables-message": "Переменные не найдены!",
     "no-variables-hint": "Добавьте переменную, чтобы начать.",
     "table": {
@@ -161,6 +164,7 @@
       "value": "Значение",
       "delete": "Удалить"
     },
+    "toast-success-message": "Переменная {name} успешно добавлена",
     "toast-duplicate-message": "Переменная {name} уже существует!",
     "validation-error": {
       "name-required": "Обязательное поле",

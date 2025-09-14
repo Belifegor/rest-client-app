@@ -6,32 +6,38 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddVariableData, createAddVariableSchema } from "@/lib/validation/variables-schema";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 function VariablesForm() {
   const t = useTranslations("Variables");
   const { variables, addVariable } = useVariablesStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const addVariableSchema = createAddVariableSchema(t);
 
   const onSubmit = (data: AddVariableData) => {
+    setIsLoading(true);
     const isDuplicate = variables.some((item) => Object.keys(item)[0] === data.name);
-
-    if (!isDuplicate) {
-      const newVariable = { [data.name]: data.value };
-      addVariable(newVariable);
-      reset();
-    } else {
-      toast.error(t("toast-duplicate-message", { name: data.name }));
-    }
+    setTimeout(() => {
+      if (!isDuplicate) {
+        const newVariable = { [data.name]: data.value };
+        addVariable(newVariable);
+        reset();
+        toast.success(t("toast-success-message", { name: data.name }));
+      } else {
+        toast.error(t("toast-duplicate-message", { name: data.name }));
+      }
+      setIsLoading(false);
+    }, 500);
   };
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<AddVariableData>({
-    mode: "onBlur",
+    mode: "onChange",
     resolver: zodResolver(addVariableSchema),
   });
 
@@ -61,9 +67,10 @@ function VariablesForm() {
       </div>
       <Button
         type="submit"
+        disabled={!isValid || isLoading}
         className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white px-6 py-2 rounded shadow-md transition"
       >
-        {t("button-add")}
+        {isLoading ? t("button.loading") : t("button.normal")}
       </Button>
     </form>
   );
