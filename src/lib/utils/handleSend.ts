@@ -58,20 +58,41 @@ export async function handleSend({
     res.headers.forEach((v, k) => hdrs.push([k, v]));
     setRespHeaders(hdrs);
 
-    const ct = res.headers.get("content-type") || "";
     const text = await res.text();
+    setRespBody(text);
 
-    if (ct.includes("application/json")) {
-      try {
-        setRespBody(JSON.stringify(JSON.parse(text), null, 2));
-      } catch {
-        setRespBody(text);
-      }
-    } else {
-      setRespBody(text);
-    }
+    await fetch("/api/history/route", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        method,
+        url,
+        headers: headersObj,
+        body,
+        requestSize: body.length,
+        responseSize: text.length,
+        duration: Math.round(t1 - t0),
+        errorDetails: null,
+      }),
+    });
   } catch (err) {
-    setErrorMsg(err instanceof Error ? err.message : "Network error");
+    const errorMsg = err instanceof Error ? err.message : "Network error";
+    setErrorMsg(errorMsg);
+
+    await fetch("/api/history/route", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        method,
+        url,
+        headers: Object.fromEntries(headers.map((h) => [h.key, h.value])),
+        body,
+        requestSize: body.length,
+        responseSize: 0,
+        duration: 0,
+        errorDetails: errorMsg,
+      }),
+    });
   } finally {
     setIsLoading(false);
   }

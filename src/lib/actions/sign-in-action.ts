@@ -1,4 +1,4 @@
-import { auth } from "@/lib/firebase";
+import { auth } from "@/db/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormState } from "@/types/types";
 import { parseError } from "@/lib/utils/parseError";
@@ -12,7 +12,16 @@ export async function signInAction(_prevState: FormState, formData: FormData): P
   }
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    const idToken = await user.getIdToken();
+
+    await fetch("/api/session", {
+      method: "POST",
+      body: JSON.stringify({ token: idToken }),
+      headers: { "Content-Type": "application/json" },
+    });
+
     return { error: null };
   } catch (err: unknown) {
     return { error: parseError(err) };
