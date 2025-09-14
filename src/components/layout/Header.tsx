@@ -3,20 +3,21 @@
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { useEffect, useState } from "react";
-import { auth } from "@/lib/firebase";
+import { auth } from "@/db/firebase";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { toast } from "sonner";
 import Logo from "@/components/ui/custom/Logo";
 import { useRouter } from "@/i18n/navigation";
 import { usePathname } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const t = useTranslations("Header");
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
-
+  const { signedOutRef } = useAuthRedirect();
   useEffect((): (() => void) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser): void => {
       setUser(currentUser);
@@ -36,9 +37,12 @@ export default function Header() {
 
   const handleSignOut: () => Promise<void> = async (): Promise<void> => {
     try {
+      signedOutRef.current = true;
       await signOut(auth);
       router.push(ROUTES.HOME);
       toast.success(t("toast.success"));
+      await fetch("/api/session", { method: "DELETE" });
+      toast.success("You have been signed out");
     } catch {
       toast.error(t("toast.error"));
     }
