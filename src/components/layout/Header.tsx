@@ -7,20 +7,27 @@ import { auth } from "@/db/firebase";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { toast } from "sonner";
 import Logo from "@/components/ui/custom/Logo";
+import { useRouter } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuthRedirect } from "@/lib/hooks/useAuthRedirect";
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
+  const t = useTranslations("Header");
   const [scrolled, setScrolled] = useState(false);
-
+  const router = useRouter();
   const { signedOutRef } = useAuthRedirect();
-
   useEffect((): (() => void) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser): void => {
       setUser(currentUser);
     });
     return (): void => unsubscribe();
   }, []);
+
+  const pathname = usePathname();
+  const currentLocale = useLocale();
+  const [locale, setLocale] = useState(currentLocale);
 
   useEffect((): (() => void) => {
     const onScroll: () => void = (): void => setScrolled(window.scrollY > 10);
@@ -32,14 +39,22 @@ export default function Header() {
     try {
       signedOutRef.current = true;
       await signOut(auth);
+      router.push(ROUTES.HOME);
+      toast.success(t("toast.success"));
       await fetch("/api/session", { method: "DELETE" });
       toast.success("You have been signed out");
     } catch {
-      toast.error("Failed to sign out. Please try again.");
+      toast.error(t("toast.error"));
     }
   };
 
   const isAuthenticated: boolean = !!user;
+
+  const handleLocaleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLocale = e.target.value;
+    setLocale(newLocale);
+    router.replace(pathname, { locale: newLocale });
+  };
 
   return (
     <header
@@ -52,7 +67,8 @@ export default function Header() {
       <div className="flex items-center gap-4">
         <select
           className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
-          defaultValue="en"
+          value={locale}
+          onChange={handleLocaleChange}
         >
           <option value="en">EN</option>
           <option value="ru">RU</option>
@@ -64,13 +80,13 @@ export default function Header() {
               href={ROUTES.HOME}
               className="bg-gradient-to-r from-sky-600 to-blue-600/80 hover:from-sky-700 hover:to-blue-700/80 px-3 py-1 rounded text-sm cursor-pointer"
             >
-              Main Page
+              {t("button.main")}
             </Link>
             <button
               onClick={handleSignOut}
               className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
             >
-              Sign Out
+              {t("button.sign-out")}
             </button>
           </>
         ) : (
@@ -79,13 +95,13 @@ export default function Header() {
               href={ROUTES.SIGN_IN}
               className="bg-gradient-to-r from-sky-600 to-blue-600/80 hover:from-sky-700 hover:to-blue-700/80 px-3 py-1 rounded text-sm cursor-pointer"
             >
-              Sign In
+              {t("button.sign-in")}
             </Link>
             <Link
               href={ROUTES.SIGN_UP}
               className="bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 px-3 py-1 rounded text-sm cursor-pointer"
             >
-              Sign Up
+              {t("button.sign-up")}
             </Link>
           </>
         )}
