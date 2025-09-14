@@ -8,14 +8,21 @@ import { PROTECTED_PATHS } from "@/constants/protected-paths";
 const intlMiddleware = createMiddleware(routing);
 
 export function middleware(req: NextRequest) {
-  const res = intlMiddleware(req);
-  if (res) return res;
-
-  const token = req.cookies.get("token");
+  const token = req.cookies.get("token")?.value;
   const url = req.nextUrl.clone();
 
-  const isProtected: boolean = PROTECTED_PATHS.some(
-    (path): boolean => url.pathname === path || url.pathname.startsWith(path + "/")
+  const segments = url.pathname.split("/").filter(Boolean);
+  let normalizedPath = url.pathname;
+
+  if (
+    segments.length > 1 &&
+    routing.locales.includes(segments[0] as (typeof routing.locales)[number])
+  ) {
+    normalizedPath = "/" + segments.slice(1).join("/");
+  }
+
+  const isProtected = PROTECTED_PATHS.some(
+    (path) => normalizedPath === path || normalizedPath.startsWith(path + "/")
   );
 
   if (isProtected && !token) {
@@ -23,14 +30,12 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  const res = intlMiddleware(req);
+  if (res) return res;
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
-    "/history/:path*",
-    "/client/:path*",
-    "/variables/:path*",
-  ],
+  matcher: ["/((?!api|trpc|_next|_vercel|.*\\..*).*)"],
 };

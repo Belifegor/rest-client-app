@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, db } from "@/db/firebase-admin";
-import { Timestamp } from "firebase-admin/firestore";
+import { firestore } from "firebase-admin";
+import FieldValue = firestore.FieldValue;
+
+export const runtime = "nodejs";
+
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 interface HistoryRequestBody {
-  method: string;
+  method: HttpMethod;
   url: string;
   headers: Record<string, string>;
   body: string;
@@ -30,17 +35,18 @@ export async function POST(req: NextRequest) {
       userId,
       method: body.method,
       url: body.url,
-      headers: body.headers,
+      headers: body.headers ?? {},
       body: body.body,
       requestSize: body.requestSize ?? 0,
       responseSize: body.responseSize ?? 0,
       duration: body.duration ?? 0,
       errorDetails: body.errorDetails ?? null,
-      createdAt: Timestamp.now(),
+      createdAt: FieldValue.serverTimestamp(),
     });
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    return NextResponse.json({ ok: false, message: (err as Error).message }, { status: 500 });
+    const errorMsg = err instanceof Error ? err.message : "Unknown server error";
+    return NextResponse.json({ ok: false, message: errorMsg }, { status: 500 });
   }
 }
