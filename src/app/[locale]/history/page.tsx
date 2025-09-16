@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { adminAuth, db } from "@/db/firebase-admin";
 import type { Timestamp } from "firebase-admin/firestore";
+import Link from "next/link";
 
 type HistoryItem = {
   id: string;
@@ -58,17 +59,22 @@ export default async function HistoryPage() {
           <ul className="space-y-2">
             {history.map((h) => (
               <li key={h.id} className="border border-gray-700 rounded bg-gray-800 p-2">
-                <div>
-                  <strong>{h.method}</strong> {h.url}
-                </div>
-                <div className="text-xs mt-1 text-gray-400">
-                  {new Date(h.createdAt.toMillis()).toLocaleString()}
-                </div>
-                <div className="text-xs text-gray-400 mt-1">
-                  Status: {h.responseStatus || "-"} | Duration: {h.duration ?? "-"} ms |{" "}
-                  {h.requestSize ?? "-"} bytes | Resp size: {h.responseSize ?? "-"} bytes
-                  {h.errorDetails && <div className="text-red-500">Error: {h.errorDetails}</div>}
-                </div>
+                <Link href={"/client"}>
+                  <div>
+                    <strong className="px-2 py-1 rounded text-xs font-semibold border-1 border-gray-600 mr-1">
+                      {h.method}
+                    </strong>{" "}
+                    {h.url}
+                  </div>
+                  <div className="text-xs mt-1 text-gray-400">
+                    {new Date(h.createdAt.toMillis()).toLocaleString()}
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    Status: {h.responseStatus || "-"} | Duration: {h.duration ?? "-"} ms |{" "}
+                    {h.requestSize ?? "-"} bytes | Resp size: {h.responseSize ?? "-"} bytes
+                    {h.errorDetails && <div className="text-red-500">Error: {h.errorDetails}</div>}
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>
