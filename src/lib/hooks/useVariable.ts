@@ -3,10 +3,6 @@ import { useVariablesStore } from "@/lib/stores/variables-store";
 export const useVariable = () => {
   const { getVariable } = useVariablesStore();
 
-  const containsVariable = (input: string) => {
-    return input.includes("{{") && input.includes("}}");
-  };
-
   const replaceWithValue = (value: string): string => {
     const variablePattern = /\{\{([^}]*)\}\}/g;
     let result = value;
@@ -26,7 +22,6 @@ export const useVariable = () => {
   };
 
   return {
-    containsVariable,
     replaceWithValue,
   };
 };

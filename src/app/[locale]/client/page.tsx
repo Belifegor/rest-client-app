@@ -7,6 +7,7 @@ import { useState } from "react";
 import { handleSend } from "@/lib/utils/handleSend";
 import { useTranslations } from "next-intl";
 import { useRequestQuerySync } from "@/lib/hooks/useRequestQuerySync";
+import { useVariable } from "@/lib/hooks/useVariable";
 
 export default function RestClient() {
   const {
@@ -31,6 +32,25 @@ export default function RestClient() {
   const [respBody, setRespBody] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { replaceWithValue } = useVariable();
+
+  const updateRequestData = () => {
+    const updatedUrl = replaceWithValue(url);
+
+    const updatedHeaders = headers.map((header) => ({
+      ...header,
+      value: replaceWithValue(header.value),
+    }));
+
+    const updatedBody = replaceWithValue(body);
+
+    return {
+      method,
+      url: updatedUrl,
+      headers: updatedHeaders,
+      body: updatedBody,
+    };
+  };
 
   const t = useTranslations("Client");
   const REQUEST_TABS: string[] = [
@@ -63,19 +83,20 @@ export default function RestClient() {
         <Button
           className="px-6 bg-gradient-to-r from-teal-600 to-green-600/80 hover:from-teal-700 hover:to-green-700/80 text-white cursor-pointer"
           disabled={!canSend || isLoading}
-          onClick={() =>
+          onClick={() => {
+            const updatedData = updateRequestData();
             handleSend({
               method,
-              url,
-              headers,
-              body,
+              url: updatedData.url,
+              headers: updatedData.headers,
+              body: updatedData.body,
               setRespStatus,
               setRespHeaders,
               setRespBody,
               setIsLoading,
               setErrorMsg,
-            })
-          }
+            });
+          }}
         >
           {isLoading ? t("button.loading") : t("button.normal")}
         </Button>

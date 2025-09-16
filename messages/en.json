@@ -153,13 +153,18 @@
       "name": "Name",
       "value": "Value"
     },
-    "button-add": "Add variable",
-    "no-variables-message": "No variables here. Add a variable to get started!",
+    "button": {
+      "loading": "Adding...",
+      "normal": "Add variable"
+    },
+    "no-variables-message": "No variables here!",
+    "no-variables-hint": "Add your first variable to get started.",
     "table": {
       "name": "Name",
       "value": "Value",
       "delete": "Delete"
     },
+    "toast-success-message": "Variable {name} was added successfully",
     "toast-duplicate-message": "Variable {name} already exists!",
     "validation-error": {
       "name-required": "Name is required",
