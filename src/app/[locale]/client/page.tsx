@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { handleSend } from "@/lib/utils/handleSend";
 import { useTranslations } from "next-intl";
+import { useRequestQuerySync } from "@/lib/hooks/useRequestQuerySync";
 import { useVariable } from "@/lib/hooks/useVariable";
 
 export default function RestClient() {
@@ -21,6 +22,8 @@ export default function RestClient() {
     updateHeader,
     removeHeader,
   } = useRequest();
+
+  useRequestQuerySync();
 
   const canSend = url.trim().length > 0;
 
