@@ -7,7 +7,7 @@ import { encodeBase64Url, decodeBase64Url } from "@/lib/utils/base64";
 const DEBOUNCE_MS = 300;
 
 export function useRequestQuerySync() {
-  const { method, url, body, setMethod, setUrl, setBody } = useRequest();
+  const { method, url, body, headers, setMethod, setUrl, setBody } = useRequest();
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -56,6 +56,12 @@ export function useRequestQuerySync() {
         params.delete("body");
       }
 
+      headers.forEach((h) => {
+        if (h.key.trim().length) {
+          params.set(h.key.trim(), h.value.trim());
+        }
+      });
+
       const nextQs = params.toString();
       const nextHref = nextQs ? `${window.location.pathname}?${nextQs}` : window.location.pathname;
 
@@ -69,5 +75,5 @@ export function useRequestQuerySync() {
         window.clearTimeout(timerRef.current);
       }
     };
-  }, [method, url, body]);
+  }, [method, url, body, headers]);
 }
