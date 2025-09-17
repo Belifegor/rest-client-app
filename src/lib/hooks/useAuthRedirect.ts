@@ -38,8 +38,6 @@ export function useAuthRedirect() {
             body: JSON.stringify({ token: tokenResult.token }),
           });
 
-          toast.message(`Token expires (local): ${realExpiresAt.toLocaleString()}`);
-
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(
             async (): Promise<void> => {

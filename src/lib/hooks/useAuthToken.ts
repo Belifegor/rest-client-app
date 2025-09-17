@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { auth } from "@/db/firebase";
 import { onIdTokenChanged, User, getIdTokenResult } from "firebase/auth";
-import { toast } from "sonner";
 
 export function useAuthToken() {
   const [user, setUser] = useState<User | null>(null);
@@ -13,9 +12,7 @@ export function useAuthToken() {
     const unsubscribe = onIdTokenChanged(auth, async (currentUser: User | null): Promise<void> => {
       if (currentUser) {
         try {
-          const tokenResult = await getIdTokenResult(currentUser);
-          const token: string = tokenResult.token;
-          toast.message(`Current user token: ${token}`);
+          await getIdTokenResult(currentUser);
           setUser(currentUser);
         } catch {
           setUser(null);
