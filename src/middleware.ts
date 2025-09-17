@@ -8,11 +8,11 @@ import { PROTECTED_PATHS } from "@/constants/protected-paths";
 const intlMiddleware = createMiddleware(routing);
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")?.value;
+  const token: string | undefined = req.cookies.get("token")?.value;
   const url = req.nextUrl.clone();
 
-  const segments = url.pathname.split("/").filter(Boolean);
-  let normalizedPath = url.pathname;
+  const segments: string[] = url.pathname.split("/").filter(Boolean);
+  let normalizedPath: string = url.pathname;
 
   if (
     segments.length > 1 &&
@@ -21,8 +21,8 @@ export function middleware(req: NextRequest) {
     normalizedPath = "/" + segments.slice(1).join("/");
   }
 
-  const isProtected = PROTECTED_PATHS.some(
-    (path) => normalizedPath === path || normalizedPath.startsWith(path + "/")
+  const isProtected: boolean = PROTECTED_PATHS.some(
+    (path): boolean => normalizedPath === path || normalizedPath.startsWith(path + "/")
   );
 
   if (isProtected && !token) {
