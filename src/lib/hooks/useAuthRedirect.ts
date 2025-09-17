@@ -12,7 +12,7 @@ export function useAuthRedirect() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname: string = usePathname();
   const prevUserRef = useRef<User | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const signedOutRef = useRef(false);

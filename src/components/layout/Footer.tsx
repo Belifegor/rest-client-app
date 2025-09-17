@@ -24,7 +24,7 @@ export default function Footer() {
             src="/rsschool-logo.svg"
             alt="RS School Logo"
             width={100}
-            height={24}
+            height={0}
             className="h-6 w-auto"
           />
         </Link>
