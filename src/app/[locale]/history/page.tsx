@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { adminAuth, db } from "@/db/firebase-admin";
 import type { Timestamp } from "firebase-admin/firestore";
 import Link from "next/link";
+import { encodeBase64Url } from "@/lib/utils/base64";
 
 type HistoryItem = {
   id: string;
@@ -18,6 +19,24 @@ type HistoryItem = {
   responseSize?: number;
   errorDetails?: string | null;
 };
+
+function generateLink(h: HistoryItem): string {
+  const params = new URLSearchParams();
+
+  params.set("method", h.method);
+  params.set("url", encodeBase64Url(h.url));
+
+  if (h.body) {
+    params.set("body", encodeBase64Url(h.body));
+  }
+
+  Object.entries(h.headers).forEach(([key, value]) => {
+    if (key) {
+      params.set(key, value);
+    }
+  });
+  return `/client?${params.toString()}`;
+}
 
 export default async function HistoryPage() {
   try {
@@ -59,7 +78,7 @@ export default async function HistoryPage() {
           <ul className="space-y-2">
             {history.map((h) => (
               <li key={h.id} className="border border-gray-700 rounded bg-gray-800 p-2">
-                <Link href={"/client"}>
+                <Link href={generateLink(h)}>
                   <div>
                     <strong className="px-2 py-1 rounded text-xs font-semibold border-1 border-gray-600 mr-1">
                       {h.method}
