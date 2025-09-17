@@ -16,6 +16,7 @@ type State = {
   addHeader: () => void;
   updateHeader: (id: string, patch: Partial<Header>) => void;
   removeHeader: (id: string) => void;
+  setHeaders: (headers: Header[]) => void;
 };
 
 export const useRequest = create<State>()((set) => ({
@@ -32,4 +33,5 @@ export const useRequest = create<State>()((set) => ({
   updateHeader: (id, patch) =>
     set((s) => ({ headers: s.headers.map((h) => (h.id === id ? { ...h, ...patch } : h)) })),
   removeHeader: (id) => set((s) => ({ headers: s.headers.filter((h) => h.id !== id) })),
+  setHeaders: (headers) => set({ headers }),
 }));
