@@ -20,6 +20,7 @@ export async function signInAction(_prevState: FormState, formData: FormData): P
       method: "POST",
       body: JSON.stringify({ token: idToken }),
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
     });
 
     return { error: null };
