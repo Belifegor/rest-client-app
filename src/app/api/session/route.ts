@@ -5,7 +5,6 @@ export async function POST(req: Request) {
   const { token } = await req.json();
 
   try {
-    await adminAuth.verifyIdToken(token);
     const decodedToken = await adminAuth.verifyIdToken(token, true);
     (await cookies()).set({
       name: "token",
