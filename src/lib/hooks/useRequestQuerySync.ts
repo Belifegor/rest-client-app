@@ -7,7 +7,8 @@ import { encodeBase64Url, decodeBase64Url } from "@/lib/utils/base64";
 const DEBOUNCE_MS = 300;
 
 export function useRequestQuerySync() {
-  const { method, url, body, headers, setMethod, setUrl, setBody, setHeaders } = useRequest();
+  const { method, url, body, headers, setMethod, setUrl, setBody, removeBody, setHeaders } =
+    useRequest();
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -22,6 +23,8 @@ export function useRequestQuerySync() {
     const encBody = params.get("body");
     if (encBody !== null) {
       setBody(decodeBase64Url(encBody));
+    } else {
+      removeBody();
     }
 
     const m = params.get("method");
@@ -40,8 +43,10 @@ export function useRequestQuerySync() {
     });
     if (restoredHeaders.length) {
       setHeaders(restoredHeaders);
+    } else {
+      setHeaders([{ id: crypto.randomUUID(), key: "", value: "" }]);
     }
-  }, [setUrl, setBody, setMethod, setHeaders]);
+  }, [setUrl, setBody, setMethod, setHeaders, removeBody]);
 
   useEffect(() => {
     if (timerRef.current) {

@@ -172,6 +172,19 @@
       "value-required": "Value is required"
     }
   },
+  "History": {
+    "title": "History of requests",
+    "date": "en-US",
+    "no-requests": "You haven't executed any requests yet. Try making a request in ",
+    "client": "REST Client",
+    "status": "Status:",
+    "duration": "Duration:",
+    "ms": "ms",
+    "bytes": "bytes",
+    "req-size": "Request size:",
+    "resp-size": "Response size:",
+    "error": "Error:"
+  },
   "NotFound": {
     "text": "Oops! The page you are looking for doesn’t exist or has been moved.",
     "link": "Go Home"

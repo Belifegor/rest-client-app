@@ -12,6 +12,7 @@ interface HistoryRequestBody {
   url: string;
   headers: Record<string, string>;
   body: string;
+  responseStatus: number;
   requestSize?: number;
   responseSize?: number;
   duration?: number;
@@ -37,6 +38,7 @@ export async function POST(req: NextRequest) {
       url: body.url,
       headers: body.headers ?? {},
       body: body.body,
+      responseStatus: body.responseStatus,
       requestSize: body.requestSize ?? 0,
       responseSize: body.responseSize ?? 0,
       duration: body.duration ?? 0,
