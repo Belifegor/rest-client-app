@@ -14,7 +14,7 @@ export type HistoryItem = {
   body: string;
   createdAt: string;
   duration?: number;
-  responseStatus?: string;
+  responseStatus?: number;
   requestSize?: number;
   responseSize?: number;
   errorDetails?: string | null;
