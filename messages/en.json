@@ -181,6 +181,7 @@
     "duration": "Duration:",
     "ms": "ms",
     "bytes": "bytes",
+    "req-size": "Request size:",
     "resp-size": "Response size:",
     "error": "Error:"
   },

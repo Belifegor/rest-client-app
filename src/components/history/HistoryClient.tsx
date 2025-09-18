@@ -45,7 +45,10 @@ export default function HistoryClient({ history }: Props) {
       ) : (
         <ul className="space-y-2">
           {history.map((h) => (
-            <li key={h.id} className="border border-gray-700 rounded bg-gray-800 p-2">
+            <li
+              key={h.id}
+              className="border border-gray-700 rounded bg-gray-800 p-2 hover:bg-slate-800"
+            >
               <Link href={generateLink(h)}>
                 <div>
                   <strong className="px-2 py-1 rounded text-xs font-semibold border-1 border-gray-600 mr-1">
@@ -65,8 +68,22 @@ export default function HistoryClient({ history }: Props) {
                   })}
                 </div>
                 <div className="text-xs text-gray-400 mt-1">
-                  {t("status")} {h.responseStatus ?? "-"} | {t("duration")} {h.duration ?? "-"}{" "}
-                  {t("ms")} | {h.requestSize ?? "-"} {t("bytes")} | {t("resp-size")}{" "}
+                  {t("status")}{" "}
+                  <span
+                    className={`${
+                      h.responseStatus && h.responseStatus >= 400
+                        ? "text-red-400"
+                        : h.responseStatus && h.responseStatus >= 300
+                          ? "text-yellow-500"
+                          : h.responseStatus && h.responseStatus >= 200
+                            ? "text-green-500"
+                            : "text-gray-500"
+                    }`}
+                  >
+                    {h.responseStatus ?? "-"}
+                  </span>{" "}
+                  | {t("duration")} {h.duration ?? "-"}
+                  {t("ms")} | {t("req-size")} {h.requestSize ?? "-"} {t("bytes")} | {t("resp-size")}{" "}
                   {h.responseSize ?? "-"} {t("bytes")}
                   {h.errorDetails && (
                     <div className="text-red-500">
