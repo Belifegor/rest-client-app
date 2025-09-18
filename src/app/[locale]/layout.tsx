@@ -4,6 +4,7 @@ import AppShell from "@/components/layout/AppShell";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import React from "react";
 
 export const metadata: Metadata = { title: "REST Client", description: "Mini Postman on Next.js" };
 
