@@ -13,6 +13,7 @@ type State = {
   setMethod: (m: HttpMethod) => void;
   setUrl: (u: string) => void;
   setBody: (b: string) => void;
+  removeBody: () => void;
   addHeader: () => void;
   updateHeader: (id: string, patch: Partial<Header>) => void;
   removeHeader: (id: string) => void;
@@ -28,6 +29,7 @@ export const useRequest = create<State>()((set) => ({
   setMethod: (m) => set({ method: m }),
   setUrl: (u) => set({ url: u }),
   setBody: (b) => set({ body: b }),
+  removeBody: () => set({ body: "" }),
   addHeader: () =>
     set((s) => ({ headers: [...s.headers, { id: crypto.randomUUID(), key: "", value: "" }] })),
   updateHeader: (id, patch) =>
