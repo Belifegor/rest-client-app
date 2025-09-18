@@ -4,6 +4,7 @@ import React from "react";
 import type { HistoryItem } from "@/app/[locale]/history/page";
 import { encodeBase64Url } from "@/lib/utils/base64";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 type Props = {
   history: HistoryItem[];
@@ -28,6 +29,8 @@ function generateLink(h: HistoryItem): string {
 }
 
 export default function HistoryClient({ history }: Props) {
+  const t = useTranslations("History");
+
   return (
     <div className="p-6 text-white">
       <h1 className="text-2xl font-bold mb-4">History Requests</h1>
@@ -49,7 +52,15 @@ export default function HistoryClient({ history }: Props) {
                   {h.url}
                 </div>
                 <div className="text-xs mt-1 text-gray-400">
-                  {new Date(h.createdAt).toLocaleString()}
+                  {new Date(h.createdAt).toLocaleString(t("date"), {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false,
+                  })}
                 </div>
                 <div className="text-xs text-gray-400 mt-1">
                   Status: {h.responseStatus ?? "-"} | Duration: {h.duration ?? "-"} ms |{" "}

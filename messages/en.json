@@ -172,6 +172,9 @@
       "value-required": "Value is required"
     }
   },
+  "History": {
+    "date": "en-US"
+  },
   "NotFound": {
     "text": "Oops! The page you are looking for doesn’t exist or has been moved.",
     "link": "Go Home"
