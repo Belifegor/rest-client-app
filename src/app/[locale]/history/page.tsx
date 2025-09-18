@@ -34,7 +34,11 @@ export default async function HistoryPage() {
   const decoded = await adminAuth.verifyIdToken(token);
   const userId: string = decoded.uid;
 
-  const snapshot = await db.collection("history").where("userId", "==", userId).get();
+  const snapshot = await db
+    .collection("history")
+    .where("userId", "==", userId)
+    .orderBy("createdAt", "desc")
+    .get();
 
   const history: HistoryItem[] = snapshot.docs.map((doc) => {
     const data = doc.data();
