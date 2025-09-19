@@ -124,6 +124,23 @@
       "body": "body",
       "headers": "headers"
     },
+    "params": {
+      "title": "Query params",
+      "add": "Add param",
+      "input": { "key": "Key", "value": "Value" },
+      "delete": "Delete",
+      "empty": "No params yet."
+    },
+    "auth": {
+      "none-hint": "Auth disabled.",
+      "bearer": {
+        "token": "Token"
+      },
+      "basic": {
+        "username": "Username",
+        "password": "Password"
+      }
+    },
     "params-input-placeholder": "Add query parameters here…",
     "headers": {
       "title": "Request headers",

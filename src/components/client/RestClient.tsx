@@ -16,12 +16,21 @@ export default function RestClient() {
     url,
     body,
     headers,
+    params,
+    auth,
     setMethod,
     setUrl,
     setBody,
     addHeader,
     updateHeader,
     removeHeader,
+    addParam,
+    updateParam,
+    removeParam,
+    setAuthType,
+    setBearerToken,
+    setBasicUsername,
+    setBasicPassword,
   } = useRequest();
 
   useRequestQuerySync();
@@ -45,11 +54,30 @@ export default function RestClient() {
 
     const updatedBody = replaceWithValue(body);
 
+    const updatedParams = (params ?? []).map((p) => ({
+      ...p,
+      key: p.key,
+      value: replaceWithValue(p.value),
+    }));
+
+    const updatedAuth =
+      auth?.type === "bearer"
+        ? { type: "bearer" as const, token: replaceWithValue(auth.bearerToken) }
+        : auth?.type === "basic"
+          ? {
+              type: "basic" as const,
+              username: replaceWithValue(auth.basic.username),
+              password: replaceWithValue(auth.basic.password),
+            }
+          : { type: "none" as const };
+
     return {
       method,
       url: updatedUrl,
       headers: updatedHeaders,
       body: updatedBody,
+      params: updatedParams,
+      auth: updatedAuth,
     };
   };
 
@@ -87,11 +115,17 @@ export default function RestClient() {
           disabled={!canSend || isLoading}
           onClick={() => {
             const updatedData = updateRequestData();
+            if (!updatedData.url.trim()) {
+              setErrorMsg("URL is empty");
+              return;
+            }
             handleSend({
               method,
               url: updatedData.url,
               headers: updatedData.headers,
               body: updatedData.body,
+              params: updatedData.params,
+              auth: updatedData.auth,
               setRespStatus,
               setRespHeaders,
               setRespBody,
@@ -118,7 +152,47 @@ export default function RestClient() {
         </TabsList>
         <div className="flex-1 border border-gray-700 rounded bg-gray-800 overflow-auto">
           <TabsContent value={t("request-tabs.params")} className="p-4 text-sm text-gray-300">
-            {t("params-input-placeholder")}
+            <div className="flex justify-between mb-2">
+              <span className="text-gray-400">{t("params.title") ?? "Query params"}</span>
+              <Button
+                size="sm"
+                className="bg-gray-600 hover:bg-gray-500 text-white"
+                onClick={addParam}
+              >
+                {t("params.add") ?? "Add param"}
+              </Button>
+            </div>
+
+            {params?.length ? (
+              <div className="space-y-2">
+                {params.map((p) => (
+                  <div key={p.id} className="flex gap-2">
+                    <Input
+                      placeholder={t("params.input.key") ?? "key"}
+                      className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      value={p.key}
+                      onChange={(e) => updateParam(p.id, { key: e.target.value })}
+                    />
+                    <Input
+                      placeholder={t("params.input.value") ?? "value"}
+                      className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      value={p.value}
+                      onChange={(e) => updateParam(p.id, { value: e.target.value })}
+                    />
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="bg-gray-600 hover:bg-gray-500 text-white"
+                      onClick={() => removeParam(p.id)}
+                    >
+                      {t("params.delete") ?? "Delete"}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-gray-400">{t("params.empty") ?? "No params yet."}</div>
+            )}
           </TabsContent>
           <TabsContent value={t("request-tabs.headers")} className="p-4 text-sm text-gray-300">
             <div className="flex flex-col gap-2">
@@ -188,7 +262,73 @@ export default function RestClient() {
           </TabsContent>
 
           <TabsContent value={t("request-tabs.auth")} className="p-4 text-sm text-gray-300">
-            {t("auth-input")}
+            <div className="flex items-center gap-3 mb-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="auth"
+                  className="accent-slate-300"
+                  checked={auth.type === "none"}
+                  onChange={() => setAuthType("none")}
+                />
+                <span>None</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="auth"
+                  className="accent-slate-300"
+                  checked={auth.type === "bearer"}
+                  onChange={() => setAuthType("bearer")}
+                />
+                <span>Bearer</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="auth"
+                  className="accent-slate-300"
+                  checked={auth.type === "basic"}
+                  onChange={() => setAuthType("basic")}
+                />
+                <span>Basic</span>
+              </label>
+            </div>
+
+            {auth.type === "bearer" && (
+              <div className="flex gap-2">
+                <Input
+                  placeholder={t("auth.bearer.token")}
+                  className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  value={auth.bearerToken}
+                  onChange={(e) => setBearerToken(e.target.value)}
+                />
+              </div>
+            )}
+
+            {auth.type === "basic" && (
+              <div className="flex gap-2">
+                <Input
+                  placeholder={t("auth.basic.username")}
+                  className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  value={auth.basic.username}
+                  onChange={(e) => setBasicUsername(e.target.value)}
+                />
+                <Input
+                  placeholder={t("auth.basic.password")}
+                  type="password"
+                  className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  value={auth.basic.password}
+                  onChange={(e) => setBasicPassword(e.target.value)}
+                />
+              </div>
+            )}
+
+            {auth.type === "none" && (
+              <div className="text-gray-400">{t("auth.none-hint") ?? "Auth disabled."}</div>
+            )}
           </TabsContent>
         </div>
       </Tabs>
@@ -233,7 +373,10 @@ export default function RestClient() {
             </TabsContent>
 
             <TabsContent value="Code">
-              <CodePanel method={method} url={url} headers={headers} body={body} />
+              {(() => {
+                const { url, headers, body } = updateRequestData();
+                return <CodePanel method={method} url={url} headers={headers} body={body} />;
+              })()}
             </TabsContent>
           </div>
         </Tabs>
