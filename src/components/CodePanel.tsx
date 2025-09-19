@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { generateCodeSnippets } from "@/lib/utils/generateCode";
 import type { GenHeader, GenMethod } from "@/lib/codegen/helpers";
 import { useTranslations } from "next-intl";
+import { useVariable } from "@/lib/hooks/useVariable";
 
 type Props = {
   method: GenMethod;
@@ -16,6 +17,7 @@ type Props = {
 export default function CodePanel({ method, url, headers, body }: Props) {
   const t = useTranslations("Client");
   const [active, setActive] = useState("cURL");
+  const { replaceWithValue } = useVariable();
 
   const snippets = useMemo(
     () => generateCodeSnippets(method, url, headers, body),
@@ -64,7 +66,7 @@ export default function CodePanel({ method, url, headers, body }: Props) {
               </button>
             </div>
             <pre className="p-3 text-sm text-green-300 bg-gray-800 overflow-auto whitespace-pre">
-              <code>{code}</code>
+              <code>{replaceWithValue(code)}</code>
             </pre>
           </div>
         </TabsContent>
