@@ -115,17 +115,14 @@
       "normal": "Send"
     },
     "request-tabs": {
-      "params": "params",
       "headers": "headers",
-      "body": "body",
-      "auth": "auth"
+      "body": "body"
     },
     "response-tabs": {
       "body": "body",
       "headers": "headers",
       "code": "code"
     },
-    "params-input-placeholder": "Add query parameters here…",
     "headers": {
       "title": "Request headers",
       "add": "Add",
@@ -140,7 +137,6 @@
       "error": "Invalid JSON. Cannot prettify.",
       "prettify": "Prettify"
     },
-    "auth-input": "Configure authentication here…",
     "response": {
       "title": "Response",
       "status": "Status",
