@@ -1,3 +1,4 @@
+import React from "react";
 import { GuestButtons } from "@/components/ui/custom/GuestButtons";
 import { useTranslations } from "next-intl";
 

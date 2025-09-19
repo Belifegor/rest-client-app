@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { DeveloperCard } from "@/components/DeveloperCard";
 import { team } from "@/constants/team";
 import { useTranslations } from "next-intl";
