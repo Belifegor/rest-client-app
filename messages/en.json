@@ -188,5 +188,9 @@
   "NotFound": {
     "text": "Oops! The page you are looking for doesn’t exist or has been moved.",
     "link": "Go Home"
+  },
+  "Error": {
+    "title": "Something went wrong!",
+    "button": "Try again"
   }
 }
