@@ -61,7 +61,7 @@ export default function RestClient() {
     t("request-tabs.auth"),
   ];
   const RESPONSE_TABS: string[] = [t("response-tabs.body"), t("response-tabs.headers")];
-  const RESPONSE_TABS_WITH_CODE = [...RESPONSE_TABS, "Code"];
+  const RESPONSE_TABS_WITH_CODE = [...RESPONSE_TABS, t("response-tabs.code")];
 
   return (
     <div className="flex flex-col gap-4 h-full bg-gray-900 text-white p-4">
@@ -232,8 +232,12 @@ export default function RestClient() {
               )}
             </TabsContent>
 
-            <TabsContent value="Code">
-              <CodePanel method={method} url={url} headers={headers} body={body} />
+            <TabsContent value={t("response-tabs.code")}>
+              {!url.trim() ? (
+                t("response.code")
+              ) : (
+                <CodePanel method={method} url={url} headers={headers} body={body} />
+              )}
             </TabsContent>
           </div>
         </Tabs>

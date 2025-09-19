@@ -122,7 +122,8 @@
     },
     "response-tabs": {
       "body": "body",
-      "headers": "headers"
+      "headers": "headers",
+      "code": "code"
     },
     "params-input-placeholder": "Add query parameters here…",
     "headers": {
@@ -144,7 +145,11 @@
       "title": "Response",
       "status": "Status",
       "body": "Response body will appear here…",
-      "headers": "Response headers will appear here…"
+      "headers": "Response headers will appear here…",
+      "code": "Code will appear here…"
+    },
+    "code": {
+      "copy": "Copy"
     }
   },
   "Variables": {
@@ -169,7 +174,8 @@
     "validation-error": {
       "name-required": "Name is required",
       "name-spaces": "Name should not contain spaces",
-      "value-required": "Value is required"
+      "value-required": "Value is required",
+      "value-spaces": "Value should not contain spaces"
     }
   },
   "History": {

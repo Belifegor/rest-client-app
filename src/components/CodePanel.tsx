@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { generateCodeSnippets } from "@/lib/utils/generateCode";
 import type { GenHeader, GenMethod } from "@/lib/codegen/helpers";
+import { useTranslations } from "next-intl";
 
 type Props = {
   method: GenMethod;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export default function CodePanel({ method, url, headers, body }: Props) {
+  const t = useTranslations("Client");
   const [active, setActive] = useState("cURL");
 
   const snippets = useMemo(
@@ -52,13 +54,13 @@ export default function CodePanel({ method, url, headers, body }: Props) {
         <TabsContent key={lang} value={lang} className="mt-2">
           <div className="border border-gray-700 rounded overflow-hidden">
             <div className="flex items-center justify-between px-3 py-2 bg-gray-400/60">
-              <span className="text-xs uppercase tracking-wide text-gray-300">{lang}</span>
+              <span className="text-sm uppercase tracking-wide text-gray-300">{lang}</span>
               <button
                 type="button"
-                className="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600"
+                className="text-sm px-2 py-1 rounded bg-gray-700 hover:bg-gray-600"
                 onClick={() => navigator.clipboard.writeText(code).catch(() => {})}
               >
-                Copy
+                {t("code.copy")}
               </button>
             </div>
             <pre className="p-3 text-sm text-green-300 bg-gray-800 overflow-auto whitespace-pre">
