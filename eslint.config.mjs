@@ -40,6 +40,19 @@ const eslintConfig = [
       "no-console": ["error", { allow: ["warn", "error"] }],
     },
   },
+
+  {
+    files: ["src/lib/codegen/langs/**/*.{ts,js}"],
+    rules: {
+      quotes: "off",
+      "prettier/prettier": [
+        "error",
+        {
+          singleQuote: false,
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;
