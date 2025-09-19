@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { useRequestQuerySync } from "@/lib/hooks/useRequestQuerySync";
 import { useVariable } from "@/lib/hooks/useVariable";
 import CodePanel from "@/components/CodePanel";
+import { toast } from "sonner";
 
 export default function RestClient() {
   const {
@@ -178,7 +179,7 @@ export default function RestClient() {
                     const pretty = JSON.stringify(JSON.parse(body || "{}"), null, 2);
                     setBody(pretty);
                   } catch {
-                    alert(t("body.alert"));
+                    toast.error(t("body.error"));
                   }
                 }}
               >

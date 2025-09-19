@@ -137,7 +137,7 @@
     },
     "body": {
       "input": "Enter JSON or text here…",
-      "alert": "Invalid JSON. Cannot prettify.",
+      "error": "Invalid JSON. Cannot prettify.",
       "prettify": "Prettify"
     },
     "auth-input": "Configure authentication here…",
