@@ -41,7 +41,12 @@ const eslintConfig = [
       "no-console": ["error", { allow: ["warn", "error"] }],
     },
   },
-
+  {
+    files: ["src/components/__tests__/**/*.ts", "src/components/__tests__/**/*.tsx"],
+    rules: {
+      "@next/next/no-img-element": "off",
+    },
+  },
   {
     files: ["src/lib/codegen/langs/**/*.{ts,js}"],
     rules: {
