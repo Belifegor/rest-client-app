@@ -11,7 +11,7 @@ import ru from "../../../messages/ru.json";
 vi.mock("next/image", () => {
   return {
     __esModule: true,
-    default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} />,
+    default: ({ src, alt }: { src: string; alt?: string }) => <img src={src} alt={alt || ""} />,
   };
 });
 

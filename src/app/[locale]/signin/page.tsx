@@ -25,7 +25,7 @@ export default function SignInPage() {
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-6">
         <h2 className="text-2xl font-semibold text-center mb-4">{t("title")}</h2>
 
-        <form action={formAction} className="flex flex-col gap-4">
+        <form action={formAction} className="flex flex-col gap-4" data-testid="form">
           <label className="flex flex-col">
             <span className="text-sm text-gray-300">{t("email-label")}</span>
             <input
