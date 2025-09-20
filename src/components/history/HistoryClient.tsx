@@ -10,7 +10,7 @@ type Props = {
   history: HistoryItem[];
 };
 
-function generateLink(h: HistoryItem): string {
+export function generateLink(h: HistoryItem): string {
   const params = new URLSearchParams();
 
   params.set("method", h.method);
