@@ -8,6 +8,8 @@ import { handleSend } from "@/lib/utils/handleSend";
 import { useTranslations } from "next-intl";
 import { useRequestQuerySync } from "@/lib/hooks/useRequestQuerySync";
 import { useVariable } from "@/lib/hooks/useVariable";
+import CodePanel from "@/components/CodePanel";
+import { toast } from "sonner";
 
 export default function RestClient() {
   const {
@@ -53,13 +55,9 @@ export default function RestClient() {
   };
 
   const t = useTranslations("Client");
-  const REQUEST_TABS: string[] = [
-    t("request-tabs.params"),
-    t("request-tabs.headers"),
-    t("request-tabs.body"),
-    t("request-tabs.auth"),
-  ];
+  const REQUEST_TABS: string[] = [t("request-tabs.headers"), t("request-tabs.body")];
   const RESPONSE_TABS: string[] = [t("response-tabs.body"), t("response-tabs.headers")];
+  const RESPONSE_TABS_WITH_CODE = [...RESPONSE_TABS, t("response-tabs.code")];
 
   return (
     <div className="flex flex-col gap-4 h-full bg-gray-900 text-white p-4">
@@ -102,7 +100,7 @@ export default function RestClient() {
         </Button>
       </div>
 
-      <Tabs defaultValue={t("request-tabs.params")} className="flex-1 flex flex-col">
+      <Tabs defaultValue={t("request-tabs.headers")} className="flex-1 flex flex-col">
         <TabsList className="w-fit mb-2 bg-gray-800 rounded">
           {REQUEST_TABS.map((tab) => (
             <TabsTrigger
@@ -115,9 +113,6 @@ export default function RestClient() {
           ))}
         </TabsList>
         <div className="flex-1 border border-gray-700 rounded bg-gray-800 overflow-auto">
-          <TabsContent value={t("request-tabs.params")} className="p-4 text-sm text-gray-300">
-            {t("params-input-placeholder")}
-          </TabsContent>
           <TabsContent value={t("request-tabs.headers")} className="p-4 text-sm text-gray-300">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between mb-2">
@@ -176,17 +171,13 @@ export default function RestClient() {
                     const pretty = JSON.stringify(JSON.parse(body || "{}"), null, 2);
                     setBody(pretty);
                   } catch {
-                    alert(t("body.alert"));
+                    toast.error(t("body.error"));
                   }
                 }}
               >
                 {t("body.prettify")}
               </Button>
             </div>
-          </TabsContent>
-
-          <TabsContent value={t("request-tabs.auth")} className="p-4 text-sm text-gray-300">
-            {t("auth-input")}
           </TabsContent>
         </div>
       </Tabs>
@@ -202,7 +193,7 @@ export default function RestClient() {
 
         <Tabs defaultValue={t("response-tabs.body")} className="flex-1 flex flex-col">
           <TabsList className="w-fit mb-2 bg-gray-800 rounded">
-            {RESPONSE_TABS.map((tab) => (
+            {RESPONSE_TABS_WITH_CODE.map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
@@ -227,6 +218,14 @@ export default function RestClient() {
                 </ul>
               ) : (
                 t("response.headers")
+              )}
+            </TabsContent>
+
+            <TabsContent value={t("response-tabs.code")}>
+              {!url.trim() ? (
+                t("response.code")
+              ) : (
+                <CodePanel method={method} url={url} headers={headers} body={body} />
               )}
             </TabsContent>
           </div>

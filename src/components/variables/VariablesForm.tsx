@@ -42,8 +42,8 @@ function VariablesForm() {
   });
 
   return (
-    <form className="flex gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <div>
+    <form className="flex gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex-1">
         <Input
           className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
           type="text"
@@ -51,10 +51,10 @@ function VariablesForm() {
           {...register("name")}
         ></Input>
         {errors.name && (
-          <p className="text-red-400 text-xs text-left mt-2">{errors.name.message}</p>
+          <p className="text-red-400 text-sm text-left mt-2">{errors.name.message}</p>
         )}
       </div>
-      <div>
+      <div className="flex-1">
         <Input
           className="flex-1 text-sm bg-gray-700 border-gray-600 text-white placeholder-gray-400"
           type="text"
@@ -62,7 +62,7 @@ function VariablesForm() {
           {...register("value")}
         ></Input>
         {errors.value && (
-          <p className="text-red-400 text-xs text-left mt-2">{errors.value.message}</p>
+          <p className="text-red-400 text-sm text-left mt-2">{errors.value.message}</p>
         )}
       </div>
       <Button

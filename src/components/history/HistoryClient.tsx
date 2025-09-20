@@ -10,7 +10,7 @@ type Props = {
   history: HistoryItem[];
 };
 
-function generateLink(h: HistoryItem): string {
+export function generateLink(h: HistoryItem): string {
   const params = new URLSearchParams();
 
   params.set("method", h.method);
@@ -51,12 +51,12 @@ export default function HistoryClient({ history }: Props) {
             >
               <Link href={generateLink(h)}>
                 <div>
-                  <strong className="px-2 py-1 rounded text-xs font-semibold border-1 border-gray-600 mr-1">
+                  <strong className="px-2 py-1 rounded text-sm font-semibold border-1 border-gray-600 mr-1">
                     {h.method}
                   </strong>{" "}
                   {h.url}
                 </div>
-                <div className="text-xs mt-1 text-gray-400">
+                <div className="text-sm mt-1 text-gray-400">
                   {new Date(h.createdAt).toLocaleString(t("date"), {
                     year: "numeric",
                     month: "2-digit",
@@ -67,7 +67,7 @@ export default function HistoryClient({ history }: Props) {
                     hour12: false,
                   })}
                 </div>
-                <div className="text-xs text-gray-400 mt-1">
+                <div className="text-sm text-gray-400 mt-1">
                   {t("status")}{" "}
                   <span
                     className={`${

@@ -17,12 +17,13 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 
   {
-    files: ["**/*.{ts,page.tsx}"],
+    files: ["**/*.{ts, tsx}"],
     ...tseslint.configs.recommendedTypeChecked[0],
     languageOptions: {
       parserOptions: {
         project: ["./tsconfig.json"],
         tsconfigRootDir: __dirname,
+        ecmaFeatures: { jsx: true },
       },
     },
   },
@@ -33,7 +34,7 @@ const eslintConfig = [
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {
       semi: ["error", "always"],
-      quotes: ["error", "double"],
+      quotes: ["error", "double", { allowTemplateLiterals: true }],
       "no-mixed-spaces-and-tabs": "error",
       "space-before-blocks": ["error", "always"],
       "keyword-spacing": ["error", { before: true, after: true }],
@@ -44,6 +45,19 @@ const eslintConfig = [
     files: ["src/components/__tests__/**/*.ts", "src/components/__tests__/**/*.tsx"],
     rules: {
       "@next/next/no-img-element": "off",
+    },
+  },
+
+  {
+    files: ["src/lib/codegen/langs/**/*.{ts,js}"],
+    rules: {
+      quotes: "off",
+      "prettier/prettier": [
+        "error",
+        {
+          singleQuote: false,
+        },
+      ],
     },
   },
 ];

@@ -115,16 +115,14 @@
       "normal": "Send"
     },
     "request-tabs": {
-      "params": "params",
       "headers": "headers",
-      "body": "body",
-      "auth": "auth"
+      "body": "body"
     },
     "response-tabs": {
       "body": "body",
-      "headers": "headers"
+      "headers": "headers",
+      "code": "code"
     },
-    "params-input-placeholder": "Add query parameters here…",
     "headers": {
       "title": "Request headers",
       "add": "Add",
@@ -136,15 +134,18 @@
     },
     "body": {
       "input": "Enter JSON or text here…",
-      "alert": "Invalid JSON. Cannot prettify.",
+      "error": "Invalid JSON. Cannot prettify.",
       "prettify": "Prettify"
     },
-    "auth-input": "Configure authentication here…",
     "response": {
       "title": "Response",
       "status": "Status",
       "body": "Response body will appear here…",
-      "headers": "Response headers will appear here…"
+      "headers": "Response headers will appear here…",
+      "code": "Code will appear here…"
+    },
+    "code": {
+      "copy": "Copy"
     }
   },
   "Variables": {
@@ -169,7 +170,8 @@
     "validation-error": {
       "name-required": "Name is required",
       "name-spaces": "Name should not contain spaces",
-      "value-required": "Value is required"
+      "value-required": "Value is required",
+      "value-spaces": "Value should not contain spaces"
     }
   },
   "History": {
@@ -188,5 +190,9 @@
   "NotFound": {
     "text": "Oops! The page you are looking for doesn’t exist or has been moved.",
     "link": "Go Home"
+  },
+  "Error": {
+    "title": "Something went wrong!",
+    "button": "Try again"
   }
 }
