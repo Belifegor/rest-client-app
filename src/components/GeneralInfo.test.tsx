@@ -3,8 +3,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import GeneralInfo from "@/components/GeneraInfo";
 import { NextIntlClientProvider } from "next-intl";
-import en from "../../../messages/en.json";
-import ru from "../../../messages/ru.json";
+import en from "../../messages/en.json";
+import ru from "../../messages/ru.json";
 import { team } from "@/constants/team";
 
 vi.mock("next/image", () => {

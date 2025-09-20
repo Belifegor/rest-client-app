@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { POST } from "../route";
+import { POST } from "./route";
 import * as firebaseAdmin from "@/db/firebase-admin";
 import type { DocumentReference } from "firebase-admin/firestore";
 import type { MockedFunction } from "vitest";

@@ -47,7 +47,6 @@ const eslintConfig = [
       "@next/next/no-img-element": "off",
     },
   },
-
   {
     files: ["src/lib/codegen/langs/**/*.{ts,js}"],
     rules: {

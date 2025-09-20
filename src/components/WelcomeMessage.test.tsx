@@ -2,8 +2,8 @@ import React from "react";
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import en from "../../../messages/en.json";
-import ru from "../../../messages/ru.json";
+import en from "../../messages/en.json";
+import ru from "../../messages/ru.json";
 import WelcomeMessage from "@/components/WelcomeMessage";
 
 function renderWithLocale(children: React.ReactNode, messages: typeof en, locale: string) {

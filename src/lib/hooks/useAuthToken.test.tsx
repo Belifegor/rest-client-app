@@ -25,7 +25,7 @@ describe("useAuthToken", () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
-    const mod = await import("../useAuthToken");
+    const mod = await import("./useAuthToken");
     useAuthToken = mod.useAuthToken;
   });
 

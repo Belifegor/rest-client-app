@@ -33,8 +33,8 @@ const createFormData = (data: Record<string, string>): FormData => {
 };
 
 describe("auth actions", () => {
-  let signInAction: typeof import("../sign-in-action").signInAction;
-  let signUpAction: typeof import("../sign-up-action").signUpAction;
+  let signInAction: typeof import("./sign-in-action").signInAction;
+  let signUpAction: typeof import("./sign-up-action").signUpAction;
 
   let mocks: {
     signInWithEmailAndPassword: Mock;
@@ -52,8 +52,8 @@ describe("auth actions", () => {
       updateProfile: authModule.updateProfile as Mock,
     };
 
-    signInAction = (await import("../sign-in-action")).signInAction;
-    signUpAction = (await import("../sign-up-action")).signUpAction;
+    signInAction = (await import("./sign-in-action")).signInAction;
+    signUpAction = (await import("./sign-up-action")).signUpAction;
   });
 
   describe("signInAction", () => {

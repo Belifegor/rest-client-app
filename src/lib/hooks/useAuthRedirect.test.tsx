@@ -62,7 +62,7 @@ describe("useAuthRedirect", () => {
 
     mockUsePathname.mockReturnValue("/");
 
-    const mod = await import("../useAuthRedirect");
+    const mod = await import("./useAuthRedirect");
     useAuthRedirect = mod.useAuthRedirect;
   });
 

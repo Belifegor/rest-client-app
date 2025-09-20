@@ -5,8 +5,8 @@ import { DeveloperCard } from "@/components/DeveloperCard";
 import { team } from "@/constants/team";
 import { NextIntlClientProvider } from "next-intl";
 import type { DeveloperCardProps } from "@/types/types";
-import en from "../../../messages/en.json";
-import ru from "../../../messages/ru.json";
+import en from "../../messages/en.json";
+import ru from "../../messages/ru.json";
 
 vi.mock("next/image", () => {
   return {

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as firebaseAdmin from "@/db/firebase-admin";
 import * as headers from "next/headers";
-import { POST, DELETE } from "../route";
+import { POST, DELETE } from "./route";
 
 vi.mock("@/db/firebase-admin", () => ({
   adminAuth: {
